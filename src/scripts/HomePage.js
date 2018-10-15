@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import './HomePage2.css';
 
 class HomePage extends Component {
   constructor(props){
@@ -24,11 +25,29 @@ class HomePage extends Component {
 
   render() {
 
+    let containerStyle={
+      //backgroundSize: window.innerHeight+"px, "+window.innerWidth+"px"
+      height: window.innerHeight+"px",
+      marginTop:0,
+      paddingTop:0,
+      backgroundRepeat:"no-repeat",
+      backgroundSize: window.innerWidth+"px, "+window.innerHeight+"px",
+    }
+
     let titleStyle = {
       fontSize:"200px",
       marginTop:"50px",
       color:"#ECCA00",
-      textShadow:"4px 4px 4px #CF8E19"
+      textShadow:"4px 4px 6px #CF8E19, -2px -2px 2px #fff",
+    }
+
+    
+
+    let titleStyle2 = {
+      fontSize:"200px",
+      marginTop:"50px",
+      color:"#066C89",
+      textShadow:"4px 4px 6px #C7EACF, -2px -2px 2px #000",
     }
 
     let bigButtonStyle={
@@ -37,7 +56,9 @@ class HomePage extends Component {
       marginTop: "20px",
       marginLeft: "10%",
       width: "80%",
-      textShadow: "1px 1px #CF8E19",
+      textShadow: "1px 1px #C7EACF, -1px -1px #C7EACF",
+      color:"#060B09",
+      backgroundColor:"#060B09",
     }
 
     let smallButtonStyle={
@@ -46,11 +67,13 @@ class HomePage extends Component {
       marginTop: "10px",
       marginLeft: "30%",
       width: "40%",
+      backgroundColor:"#060B09",
+      color: "#C7EACF"
     }
 
     return (
-      <div className="container">
-        <h1 className="text-center" style={titleStyle}>Potter Fight</h1>
+      <div className="container-fluid" style={containerStyle}>
+        <h1 className="text-center" style={titleStyle2}>Potter Fight</h1>
         <div className="text-center">
           <button style={bigButtonStyle} onClick={((e) => this.showButton())} >NEW FIGHT</button>
           <Link to="/houses"><button onClick={((e) => this.handleClick(false))} style={smallButtonStyle}> 1 vs 1 </button></Link>

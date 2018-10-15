@@ -1,0 +1,17 @@
+.container-fluid{
+    background-image: url("../image/fireGobletBackground.jpg");
+}
+.container-fluid button{
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+    border-radius: 5px;
+}
+
+.container-fluid button:hover{
+    text-decoration: none;
+}
+
+.container-fluid Link:hover{
+    text-decoration: none;
+}

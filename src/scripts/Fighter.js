@@ -7,27 +7,83 @@ class Fighter extends Component {
     super(props);
     this.state = {
       spellCasted: false,
-      rotation:this.props.fighter.rotation,
+      rotation: this.props.fighter.rotation,
       facesRight: this.props.fighter.facesRight,
-      top:this.props.fighter.top,
-      left:this.props.fighter.left,
-      width:this.props.fighter.width,
-      height:this.props.fighter.height,
+      top: this.props.fighter.top,
+      left: this.props.fighter.left,
+      width: this.props.fighter.width,
+      height: this.props.fighter.height,
       speed: 5,
+      activeKeys: []
     }
   }
-  
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.addKeyPress, false);
+    document.addEventListener("keyup", this.removeKeyPress, false);
+  }
+
+  addKeyPress = (event) => {
+    let activeKeys = this.state.activeKeys;
+    if (activeKeys.indexOf(event.key) === -1) {
+      activeKeys.push(event.key)
+    }
+    this.animateFighter(activeKeys)
+    this.setState({
+      activeKeys
+    })
+  }
+
+  removeKeyPress = (event) => {
+    let activeKeys = this.state.activeKeys;
+    activeKeys.splice(activeKeys.indexOf(event.key))
+    this.animateFighter(activeKeys)
+    this.setState({
+      activeKeys
+    })
+  }
+
+  animateFighter = (activeKeys) => {
+    if (activeKeys.indexOf(this.props.fighter.attack) !== -1) {
+      this.props.fighter.castSpell(this.props.fighter.id, this.props.fighter.facesRight);
+    }
+    if (activeKeys.indexOf(this.props.fighter.defend) !== -1) {
+      this.props.fighter.defense(this.props.fighter.id, this.props.fighter.facesRight);
+    }
+    if (activeKeys.indexOf(this.props.fighter.rotate) !== -1) {
+      this.props.fighter.rotateFighter(this.props.fighter.id, this.props.fighter.facesRight);
+    }
+    if (activeKeys.indexOf(this.props.fighter.moveUp) !== -1) {
+      this.props.fighter.move(this.props.fighter.id, -this.state.speed, 0);
+    }
+    if (activeKeys.indexOf(this.props.fighter.moveDown) !== -1) {
+      this.props.fighter.move(this.props.fighter.id, this.state.speed, 0);
+    }
+    if (activeKeys.indexOf(this.props.fighter.moveLeft) !== -1) {
+      this.props.fighter.move(this.props.fighter.id, 0, -this.state.speed);
+    }
+    if (activeKeys.indexOf(this.props.fighter.moveRight) !== -1) {
+      this.props.fighter.move(this.props.fighter.id, 0, this.state.speed);
+    }
+    this.setState({
+      spellCasted: this.props.fighter.spellCasted,
+      top: this.props.fighter.top,
+      left: this.props.fighter.left,
+      rotation: this.props.fighter.rotation
+    })
+  }
+
   render() {
     let fighterStyle = {
       transform: `rotateY(${this.state.rotation}deg)`,
       position: "absolute",
-      top: this.state.top+"px",
-      left: this.state.left+"px",
-      width:this.state.width+"px",
-      height:this.state.height+"px",
+      top: this.state.top + "px",
+      left: this.state.left + "px",
+      width: this.state.width + "px",
+      height: this.state.height + "px",
     };
 
-    let fighterId="fighter"+this.props.fighter.house
+    let fighterId = "fighter" + this.props.fighter.house
 
     return (
       <div>
@@ -35,49 +91,6 @@ class Fighter extends Component {
         </div>
       </div>
     );
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyPress, false);
-  }
-
-  handleKeyPress=(event) => {
-    switch(event.which){
-      case this.props.fighter.attack : 
-        this.props.fighter.castSpell(this.props.fighter.id, this.props.fighter.facesRight); 
-        break;
-      //case this.props.fighter.defense : this.props.fighter.defend(this.props.fighter.id); break;
-      case this.props.fighter.rotate : 
-        this.props.fighter.rotateFighter(this.props.fighter.id); 
-        break;
-      case this.props.fighter.moveUp : 
-        if(this.state.top>50){
-          this.props.fighter.move(this.props.fighter.id, -this.state.speed, 0);
-        }
-        break;
-      case this.props.fighter.moveDown : 
-        if(this.state.top+this.state.height+5<window.innerHeight){
-          this.props.fighter.move(this.props.fighter.id, this.state.speed, 0);
-        }
-        break;
-      case this.props.fighter.moveLeft : 
-        if(this.state.left>0){
-          this.props.fighter.move(this.props.fighter.id, 0 , -this.state.speed); 
-        }
-        break;
-      case this.props.fighter.moveRight : 
-        if(this.state.left+this.state.width+5<window.innerWidth){
-          this.props.fighter.move(this.props.fighter.id, 0, this.state.speed); 
-        }
-        break;
-    }
-
-    this.setState({
-      spellCasted:this.props.fighter.spellCasted,
-      top:this.props.fighter.top,
-      left:this.props.fighter.left,
-      rotation:this.props.fighter.rotation
-    })
   }
 }
 

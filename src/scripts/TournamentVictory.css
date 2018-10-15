@@ -25,14 +25,14 @@
 }
 
 #podium{
-    background-image: url('../image/podium.jpg');
+    /*background-image: url('../image/podium3.png');*/
     background-position: center;
     background-repeat: no-repeat;
     /*position: "absolute",
     top: "200px",
     left: "50px",*/
-    width: 500px;
-    height: 300px;
+    width: 1000px;
+    height: 1200px;
     background-size: cover;
 }
 

@@ -4,7 +4,6 @@ import HomePage from './scripts/HomePage';
 import HousesChoice from './scripts/HousesChoice';
 //import ArenaChoice from './scripts/ArenaChoice';
 import Fight from './scripts/Fight';
-//import TournamentVictory from './scripts/TournamentVictory';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
@@ -16,7 +15,7 @@ class App extends Component {
       houseSelect: {
         returnHouse: this.listFighters,
         tournamentMode: true,
-        fightersHouse: ["gryffindor","slytherin","ravenclaw"],
+        fightersHouse: [],
         fightersColor: [],
         numberOfPlayers:2,
       },
@@ -39,25 +38,15 @@ class App extends Component {
   }
 
   setTournamentMode=(bool)=>{
-    //console.log("booléen pour setTournament"+bool)
     this.setState({
       houseSelect:{
         ...this.state.houseSelect,
         tournamentMode:bool,
       }
     })
-    //console.log(this.state.setTournamentMode)
   }
 
   render() {
-
-    /*console.log("liste des fighters : ")
-    console.log(this.state.houseSelect.fightersHouse)
-
-    console.log("couleur des fighters : ")
-    console.log(this.state.houseSelect.fightersColor)
-
-    console.log(this.state.houseSelect.tournamentMode)*/
 
     return (
       <div className="App">
@@ -82,12 +71,9 @@ class App extends Component {
               path="/fight"
               render={() => (
                 <Fight
-                  //fightersHouse={fightersList}
                   fightersHouse={this.state.houseSelect.fightersHouse}
                   fightersColor={this.state.houseSelect.fightersColor}
                   tournamentMode={this.state.houseSelect.tournamentMode}
-                //fighter={fighterObject}
-                //spellfighter={spellObject}
                 />)}
             />
           </Switch>

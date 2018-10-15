@@ -11,55 +11,26 @@ class TournamentVictory extends Component {
     }
 
     componentDidMount = () => {
-        //let j=1;
-        while (this.props.houses.length > 1) {
-            /*console.log("Houses en entrée : ")
-            console.log(this.props.houses)*/
+        const classifiedPlayers=this.state.classifiedPlayers;
+        while (this.props.houses.length > 0) {
             let winningHouse = this.props.houses[0];
-            //console.log("Winning house avant le for : "+winningHouse)
             let max = this.props.points[winningHouse];
-            //console.log("Max avant le for : "+max)
             for (let i = 1; i < this.props.houses.length; i++) {
                 if (this.props.points[this.props.houses[i]] > max) {
                     winningHouse = this.props.houses[i];
                     max = this.props.points[winningHouse];
-
-                    //console.log("Tour de boucle : "+j)
-                    /*console.log("Winning house à la fin de le boucle : ")
-                    console.log(winningHouse);
-                    console.log("Max à la fin de le boucle : ")
-                    console.log(max);*/
                 }
             }
             let winningHouseIndex = this.props.houses.indexOf(winningHouse)
-            //console.log("winningHouseIndex : "+winningHouseIndex)
-            this.setState({
-                //newBestPlayer:
-                classifiedPlayers: this.state.classifiedPlayers.push(this.props.houses[winningHouseIndex]),
-                //classifiedPlayers: this.state.classifiedPlayers.push(this.props.houses.splice(winningHouseIndex,1))
-            })
-            this.props.houses.splice(winningHouseIndex, 1);
-            /*console.log("new best player : ")
-            console.log(this.state.newBestPlayer)
-            console.log("Houses à la fin de le boucle : ")
-            console.log(this.props.houses)
-            console.log("Classement à la fin de le boucle : ")
-            console.log(this.state.classifiedPlayers)
-            j++;*/
+            classifiedPlayers.push(this.props.houses[winningHouseIndex])           
+            this.props.houses.splice(winningHouseIndex, 1)
         }
-        //console.log(this.state.classifiedPlayers)
         this.setState({
-            classifiedPlayers: this.state.classifiedPlayers.push(this.props.houses[0])
+            classifiedPlayers
         })
-        console.log(this.state.classifiedPlayers)
-        console.log(typeof this.state.classifiedPlayers)
-        console.log(this.state.classifiedPlayers[0])
     }
 
     render() {
-
-        console.log(this.state.classifiedPlayers)
-        console.log(typeof this.state.classifiedPlayers)
 
         let titleStyle = {
             fontSize: "200px",
@@ -84,15 +55,16 @@ class TournamentVictory extends Component {
         return (
             <div>
                 <div>
-                    <p style={titleStyle}>Slytherin wins !!</p>
+                    <p style={titleStyle}>{this.state.classifiedPlayers[0]} wins !!</p>
                 </div>
                 <div>
-                    <div className="shield" style={{ winningStyle }} id="slytherin"></div>
-                    <div className="shield" style={{ secondStyle }} id="ravenclaw"></div>
-                    <div className="shield" style={{ thirdStyle }} id="hufflepuff"></div>
+                    <div className="shield" style={{ winningStyle }} id={this.state.classifiedPlayers[0]}></div>
+                    <div className="shield" style={{ secondStyle }} id={this.state.classifiedPlayers[1]}></div>
+                    <div className="shield" style={{ thirdStyle }} id={this.state.classifiedPlayers[2]}></div>
                 </div>
                 <div>
                     <div id="podium"></div>
+                    <a href='https://fr.freepik.com/vecteurs-libre/3d-formes-geometriques-realistes-isolees-sur-fond-transparent_3090536.htm'></a>
                 </div>
                 <div>
                     <div id="fireGoblet"></div>
