@@ -1,0 +1,6 @@
+.fighter{
+  background-image: url("../image/silouhette.png");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: 250px 200px;
+}

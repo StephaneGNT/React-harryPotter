@@ -1,0 +1,7 @@
+@font-face{
+    font-family: "PotterFont";
+    src: url('font/HARRYP__.TTF')format("truetype");
+}
+.App{
+    font-family: "PotterFont";
+}
