@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import HomePage from './scripts/HomePage';
-import HousesChoice from './scripts/HousesChoice';
+import HomePage from './pages/HomePage';
+import HousesChoice from './pages/HousesChoice';
 //import ArenaChoice from './scripts/ArenaChoice';
-import Fight from './scripts/Fight';
+import Fight from './pages/Fight';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
@@ -17,23 +17,36 @@ class App extends Component {
         tournamentMode: true,
         fightersHouse: [],
         fightersColor: [],
+        fightersSecondColor: [],
         numberOfPlayers:2,
       },
     }
   }
 
   listFighters = (fighterID) => {
-    let fighterColor = ""
+    let tempHouses=[]
+    let tempColor=[];
+    let tempSecondColor=[];
+    let fighterColor = "";
+    let fighterSecondColor=""
     switch (fighterID) {
-      case "gryffindor": fighterColor = "red"; break;
-      case "slytherin": fighterColor = "green"; break;
-      case "hufflepuff": fighterColor = "yellow"; break;
-      case "ravenclaw": fighterColor = "blue"; break;
+      case "gryffindor": {fighterColor = "red" ; fighterSecondColor="rgb(151,7,7)"}; break;
+      case "slytherin": {fighterColor = "green" ; fighterSecondColor="rgb(16,78,16)"}; break;
+      case "hufflepuff": {fighterColor = "yellow" ; fighterSecondColor="rgb(158,158,5)"}; break;
+      case "ravenclaw": {fighterColor = "rgb(96, 96, 199)" ; fighterSecondColor="rgb(48,48,131)"}; break;
     }
+    tempHouses.push(fighterID);
+    tempColor.push(fighterColor);
+    tempSecondColor.push(fighterSecondColor);
+    
     this.setState({
       fightersHouse: this.state.houseSelect.fightersHouse.push(fighterID),
       fightersHouse: [...this.state.houseSelect.fightersHouse],
       fightersColor: this.state.houseSelect.fightersColor.push(fighterColor),
+      fightersSecondColor: this.state.houseSelect.fightersSecondColor.push(fighterSecondColor),
+      /*fightersHouse:tempHouses,
+      fighterColor: tempColor,
+      fightersSecondColor: tempSecondColor*/
     })
   }
 
@@ -73,6 +86,7 @@ class App extends Component {
                 <Fight
                   fightersHouse={this.state.houseSelect.fightersHouse}
                   fightersColor={this.state.houseSelect.fightersColor}
+                  fightersSecondColor={this.state.houseSelect.fightersSecondColor}
                   tournamentMode={this.state.houseSelect.tournamentMode}
                 />)}
             />

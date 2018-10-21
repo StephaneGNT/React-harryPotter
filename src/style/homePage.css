@@ -1,7 +1,9 @@
-.container-fluid{
-    background-image: url("../image/fireGobletBackground.jpg");
-}
+/*.container-fluid{
+    background-image: url("../image/salleChateau.jpg");
+}*/
+
 .container-fluid button{
+    background-image: url("../image/parchemin.png");
     background-repeat: no-repeat;
     background-size: cover;
     border: none;

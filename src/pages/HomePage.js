@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './HomePage2.css';
+import '../style/homePage2.css';
 
 class HomePage extends Component {
   constructor(props){
@@ -19,7 +19,6 @@ class HomePage extends Component {
     this.setState({
       areSmallButtonVisible:!this.state.areSmallButtonVisible
     })
-    //console.log(this.state.areSmallButtonVisible)
   }
 
 

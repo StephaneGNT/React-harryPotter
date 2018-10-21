@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Fighter.css';
+import '../style/fighter.css';
 
 class Fighter extends Component {
 
@@ -14,7 +14,8 @@ class Fighter extends Component {
       width: this.props.fighter.width,
       height: this.props.fighter.height,
       speed: 5,
-      activeKeys: []
+      activeKeys: [],
+      defense: this.props.fighter.defense,
     }
   }
 
@@ -36,7 +37,7 @@ class Fighter extends Component {
 
   removeKeyPress = (event) => {
     let activeKeys = this.state.activeKeys;
-    activeKeys.splice(activeKeys.indexOf(event.key))
+    activeKeys.splice(activeKeys.indexOf(event.key),1)
     this.animateFighter(activeKeys)
     this.setState({
       activeKeys
@@ -44,25 +45,25 @@ class Fighter extends Component {
   }
 
   animateFighter = (activeKeys) => {
-    if (activeKeys.indexOf(this.props.fighter.attack) !== -1) {
+    if (activeKeys.indexOf(this.props.fighter.attack) !== -1 && this.props.fighter.attackCharacteristics.attackPoints >= this.props.fighter.attackCharacteristics.attackCost) {
       this.props.fighter.castSpell(this.props.fighter.id, this.props.fighter.facesRight);
     }
     if (activeKeys.indexOf(this.props.fighter.defend) !== -1) {
-      this.props.fighter.defense(this.props.fighter.id, this.props.fighter.facesRight);
+      this.props.fighter.takeOutShield(this.props.fighter.id);
     }
     if (activeKeys.indexOf(this.props.fighter.rotate) !== -1) {
       this.props.fighter.rotateFighter(this.props.fighter.id, this.props.fighter.facesRight);
     }
-    if (activeKeys.indexOf(this.props.fighter.moveUp) !== -1) {
+    if (activeKeys.indexOf(this.props.fighter.moveUp) !== -1 && this.props.fighter.top>80) {
       this.props.fighter.move(this.props.fighter.id, -this.state.speed, 0);
     }
-    if (activeKeys.indexOf(this.props.fighter.moveDown) !== -1) {
+    if (activeKeys.indexOf(this.props.fighter.moveDown) !== -1 && this.props.fighter.top+this.props.fighter.height+this.state.speed<window.innerHeight) {
       this.props.fighter.move(this.props.fighter.id, this.state.speed, 0);
     }
-    if (activeKeys.indexOf(this.props.fighter.moveLeft) !== -1) {
+    if (activeKeys.indexOf(this.props.fighter.moveLeft) !== -1 && this.props.fighter.left>0) {
       this.props.fighter.move(this.props.fighter.id, 0, -this.state.speed);
     }
-    if (activeKeys.indexOf(this.props.fighter.moveRight) !== -1) {
+    if (activeKeys.indexOf(this.props.fighter.moveRight) !== -1 && this.props.fighter.left+this.props.fighter.width+this.state.speed<window.innerWidth) {
       this.props.fighter.move(this.props.fighter.id, 0, this.state.speed);
     }
     this.setState({

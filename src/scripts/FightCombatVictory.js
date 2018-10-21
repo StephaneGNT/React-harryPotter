@@ -61,7 +61,6 @@ class CombatVictory extends Component {
             top: "10px",
             right: "5px",
         }
-        //console.log(this.props.tournamentMode)
 
         return (
             <div style={victoryScreenStyle}>
@@ -80,7 +79,6 @@ class CombatVictory extends Component {
     }
 
     restartFight=()=>{
-        //console.log("restart fight in combat victory")
         this.props.restartFight();
     }
 

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 //import Avatar from './Avatar'
 //import AttackBar from './AttackBar'
 //import DefenseBar from './DefenseBar'
-import LifeBar from './LifeBar'
+import ProgressBars from './HeaderProgressBars'
 //import TeamAvatar from './TeamAvatar'
+import Shield from './HeaderShield'
+import '../style/header.css'
 
 class Header extends Component {
 
@@ -22,20 +24,39 @@ class Header extends Component {
     }
   }
 
+  renderShields(numberOfShields){
+    const shieldsItem = [];
+    for (var i=0; i < numberOfShields; i++) {
+      shieldsItem.push(<Shield />);
+    }
+    return shieldsItem;
+  }
+
   render() {
+      
     return (
       <div>
         <div>
-          <LifeBar 
-            fighter={this.state.fighter1}
-            left="170px"  
+          <ProgressBars 
+            fighter={this.props.fighter1}
+            left={170}  
           />
         </div>
+        <div id="shieldsFighter1">
+            {
+              this.renderShields(this.props.fighter1.defense.shieldNumber)
+            } 
+        </div>
         <div>          
-          <LifeBar 
-            fighter={this.state.fighter2}
-            left="1000px"
+          <ProgressBars 
+            fighter={this.props.fighter2}
+            left={1000}
           />
+        </div>
+        <div id="shieldsFighter2">
+            {
+              this.renderShields(this.props.fighter2.defense.shieldNumber)
+            } 
         </div>
       </div>
     );

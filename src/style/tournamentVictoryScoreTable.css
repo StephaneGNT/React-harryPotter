@@ -1,0 +1,44 @@
+#scoreDiv{
+    position : absolute;
+    left: 450px;
+    width : 600px;
+    height : 400px;
+    margin: auto;
+    padding: 30px;
+    background-image: url("../image/parchemin.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color : black;
+    z-index : 10;
+    font-size : 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#scoreDiv p{
+    font-size: 20px
+}
+
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 20px;
+    margin: auto;
+}
+
+th{
+    text-align: center;
+    border: 1px solid black;
+    margin:10px;
+}
+
+td{
+    text-align: left;
+    border: 1px solid black;
+    margin:10px;
+}
+
+.points{
+    font-size: 30px;
+}
+

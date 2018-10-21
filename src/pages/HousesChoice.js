@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './HousesChoice.css';
+import '../style/housesChoice.css';
 import { Link } from 'react-router-dom'
 
 class HousesChoice extends Component {
@@ -50,11 +50,9 @@ class HousesChoice extends Component {
   }
 
   handleChange=(e)=>{
-    //console.log(e.target.value)
     this.setState({
       numberOfPlayers : e.target.value
     })
-    //console.log(this.state.numberOfPlayers)
   }
 
   componentDidMount=()=>{
@@ -64,17 +62,21 @@ class HousesChoice extends Component {
   }
   
   render() {
-    //console.log(this.state.numberOfPlayers)
     let playMode = !this.props.houseSelect.tournamentMode ? "none" : "inline-block";
     let alreadySelectedHiddenStyle = this.state.alreadyClicked ? "visible" : "hidden";
     let tooManyPlayersHiddenStyle = this.state.tooManyPlayers ? "visible" : "hidden";
 
-    /*console.log("alreadySelectedHiddenStyle : "+alreadySelectedHiddenStyle)
-    console.log("tooManyPlayersHiddenStyle : "+tooManyPlayersHiddenStyle)*/
+    
+    let houseTitleStyle={
+      fontSize:"100px",
+      marginTop:"40px",
+      color:"#066C89",
+      textShadow:"4px 4px 6px #C7EACF, -2px -2px 2px #000",
+    }
     
     return (
       <div className="container">
-          <h1  className="text-center" style={{fontSize:"100px",marginTop:"40px",color:"#ECCA00",textShadow:"2px 2px #CF8E19"}}>Choose your fighter house</h1>
+          <h1  className="text-center" style={houseTitleStyle}>Choose your fighter house</h1>
           <div style={{display : playMode, textAlign:"center"}} className="text-center">
             <span style={{fontSize:"30px",marginTop:"30px", marginLeft:"25px"}}>Number of players : </span>
             <select onChange={this.handleChange}>
