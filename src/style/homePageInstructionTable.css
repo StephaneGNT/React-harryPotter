@@ -1,0 +1,49 @@
+#instructionTable{
+    position : absolute;
+    left: 100px;
+    top : 10px;
+    width : 1200px;
+    height : 700px;
+    margin: auto;
+    padding: 30px;
+    background-image: url("../image/parchemin.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color : black;
+    z-index : 10;
+    font-size : 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#instructionTable p{
+    font-size: 20px;
+    margin : 0;
+    padding : 0;
+    text-align: right
+}
+
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 1000px;
+}
+
+th, tr, td{
+    text-align: center;
+    border: 1px solid black;
+    padding: 0px 15px;
+}
+
+.keyboardKey{
+    width: 100px;
+    height: 100px;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+

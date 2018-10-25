@@ -5,6 +5,7 @@ class ProgressBars extends Component {
 
   constructor(props) {
     super(props);
+    this.rotation = this.props.fighter.layout.facesRight ? 0 : 180
   }
 
   /*static getDerivedStateFromProps(props, state){
@@ -21,24 +22,24 @@ class ProgressBars extends Component {
   render() {
 
     let lifeBarContainerStyle={
-      transform: `rotateY(${this.props.fighter.rotation}deg)`,
+      transform: `rotateY(${this.rotation}deg)`,
       left: this.props.left + "px",
     }
 
     let lifeBarStyle={
-      backgroundColor: this.props.fighter.color,
+      backgroundColor: this.props.fighter.house.color,
       width: this.props.fighter.life + "%",
     }
 
     let attackBarContainerStyle={
-      transform: `rotateY(${this.props.fighter.rotation}deg)`,
-      left: this.props.fighter.facesRight ? this.props.left + "px" : this.props.left + 120 + "px",
+      transform: `rotateY(${this.rotation}deg)`,
+      left: this.props.fighter.layout.facesRight ? this.props.left + "px" : this.props.left + 120 + "px",
     }
 
     let attackBarStyle={
-      backgroundColor: this.props.fighter.secondColor,
-      width: this.props.fighter.attackCharacteristics.attackPoints+"%",
-      //transition: `width ${this.props.fighter.attackCharacteristics.attackTime}ms ease-in-out`,
+      backgroundColor: this.props.fighter.house.secondColor,
+      width: this.props.fighter.attack.attackPoints+"%",
+      //transition: `width ${this.props.fighter.attack.attackTime}ms ease-in-out`,
     }
     
     return (

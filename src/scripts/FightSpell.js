@@ -8,15 +8,21 @@ class Spell extends Component {
   }
   
   render() {
+
+    //console.log("render du spell")
+
     let spellStyle={
       position: "absolute",
-      top: this.props.spell.top+"px",
-      left: this.props.spell.left+"px",
-      width: this.props.spell.width+"px",
-      height: this.props.spell.height+"px",
+      top: this.props.spell.layout.top+"px",
+      left: this.props.spell.layout.left+"px",
+      width: this.props.spell.layout.width+"px",
+      height: this.props.spell.layout.height+"px",
       borderRadius: "50%",
       backgroundColor: this.props.spell.color,
+      transition: "left 300ms",
     }
+
+    //console.log(spellStyle)
     
     return (
       <div className="spell" style={spellStyle}>

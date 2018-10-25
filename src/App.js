@@ -6,6 +6,7 @@ import HousesChoice from './pages/HousesChoice';
 import Fight from './pages/Fight';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
+const Context = React.createContext();
 class App extends Component {
 
   constructor() {
@@ -14,10 +15,10 @@ class App extends Component {
     this.state = {
       houseSelect: {
         returnHouse: this.listFighters,
-        tournamentMode: true,
-        fightersHouse: [],
-        fightersColor: [],
-        fightersSecondColor: [],
+        tournamentMode: false,
+        fightersHouse: ["slytherin", "gryffindor"],
+        fightersColor: ["rgb(75, 220, 80)", "rgb(255, 0, 0)"],
+        fightersSecondColor: ["rgb(27,146,31)","rgb(201,31,31)"],
         numberOfPlayers:2,
       },
     }
@@ -30,10 +31,10 @@ class App extends Component {
     let fighterColor = "";
     let fighterSecondColor=""
     switch (fighterID) {
-      case "gryffindor": {fighterColor = "red" ; fighterSecondColor="rgb(151,7,7)"}; break;
-      case "slytherin": {fighterColor = "green" ; fighterSecondColor="rgb(16,78,16)"}; break;
-      case "hufflepuff": {fighterColor = "yellow" ; fighterSecondColor="rgb(158,158,5)"}; break;
-      case "ravenclaw": {fighterColor = "rgb(96, 96, 199)" ; fighterSecondColor="rgb(48,48,131)"}; break;
+      case "gryffindor": {fighterColor = "rgb(255, 0, 0)" ; fighterSecondColor="rgb(201,31,31)"}; break;
+      case "slytherin": {fighterColor = "rgb(75, 220, 80)" ; fighterSecondColor="rgb(27,146,31)"}; break;
+      case "hufflepuff": {fighterColor = "rgb(255, 255, 0)" ; fighterSecondColor="rgb(215,215,8)"}; break;
+      case "ravenclaw": {fighterColor = "rgb(0, 0, 255)" ; fighterSecondColor="rgb(48,48,131)"}; break;
     }
     tempHouses.push(fighterID);
     tempColor.push(fighterColor);
@@ -44,9 +45,6 @@ class App extends Component {
       fightersHouse: [...this.state.houseSelect.fightersHouse],
       fightersColor: this.state.houseSelect.fightersColor.push(fighterColor),
       fightersSecondColor: this.state.houseSelect.fightersSecondColor.push(fighterSecondColor),
-      /*fightersHouse:tempHouses,
-      fighterColor: tempColor,
-      fightersSecondColor: tempSecondColor*/
     })
   }
 
@@ -98,76 +96,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-/*let fighterObject = {
-      id: "",
-      spellCasted: false,
-      rotation: 0,
-      facesRight: true,
-      top: 250,
-      left: 100,
-      life: 100,
-      width: 250,
-      height: 200,
-      attack: 87,      // Attaque: w
-      defense: 81,    // Défense: q
-      rotate: 65,     // Rotate: a
-      moveUp: 69,         // Up: e
-      moveDown: 68,      // Down: d
-      moveLeft: 83,        // Left: s
-      moveRight: 70,       // Right: f
-      house: "slytherin",
-      castSpell: "",
-      move: "",
-      rotateFighter: ""
-    };
-
-    let spellObject = {
-      left: 0,
-      top: 0,
-      height: 20,
-      width: 20,
-      id: "spellslytherin",
-      direction: 10,
-    };*/
-
-    /*let fighter1 = new fighterObject();
-    let fighter2 = new fighterObject();
-    let spell1 = new spellObject();
-    let spellfighter2 = new spellObject();*/
-
-    /*
-    let fighterObject = {
-      id: "",
-      spellCasted: false,
-      rotation: 0,
-      facesRight: true,
-      top: 250,
-      left: 100,
-      life: 100,
-      width: 250,
-      height: 200,
-      attack: 87,      // Attaque: w
-      defense: 81,    // Défense: q
-      rotate: 65,     // Rotate: a
-      moveUp: 69,         // Up: e
-      moveDown: 68,      // Down: d
-      moveLeft: 83,        // Left: s
-      moveRight: 70,       // Right: f
-      house: "slytherin",
-      castSpell: "",
-      move: "",
-      rotateFighter: ""
-    };
-
-    let spellObject = {
-      left: 0,
-      top: 0,
-      height: 20,
-      width: 20,
-      id: "spellslytherin",
-      direction: 10,
-    };
-    */

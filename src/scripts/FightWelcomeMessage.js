@@ -58,7 +58,7 @@ class WelcomeMessage extends Component {
             color : this.props.fighter1Info.color,
             //width : "auto",
             position : "fixed",
-            right : window.innerWidth/2+"px",
+            right : window.innerWidth/1.75+"px",
             transform : "rotateZ(-20deg)",
             textShadow : "2px 2px 2px "+this.props.fighter1Info.secondColor+",-2px -2px 2px "+this.props.fighter1Info.secondColor,
         }
@@ -73,7 +73,7 @@ class WelcomeMessage extends Component {
             color:this.props.fighter2Info.color,
             transform: "rotateZ(-20deg)",
             position:"absolute",
-            left: window.innerWidth/2+"px",
+            left: window.innerWidth/2*1.05+"px",
             top:"40px",
             textShadow:"2px 2px 2px "+this.props.fighter2Info.secondColor+",-2px -2px 2px "+this.props.fighter2Info.secondColor,
         }

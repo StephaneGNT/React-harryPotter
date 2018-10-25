@@ -6,8 +6,8 @@ class CombatVictory extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            house: this.props.winner.house,
-            color: this.props.winner.color,
+            house: this.props.winner.house.name,
+            color: this.props.winner.house.color,
             tournamentMode: this.props.tournamentMode,
             turn: this.props.turn,
         }
@@ -15,8 +15,8 @@ class CombatVictory extends Component {
 
     static getDerivedStateFromProps(props, state) {
         return {
-            house: props.winner.house,
-            color: props.winner.color,
+            house: props.winner.house.name,
+            color: props.winner.house.color,
         }
     }
 

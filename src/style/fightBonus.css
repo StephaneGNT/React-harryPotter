@@ -1,0 +1,13 @@
+#bonus{
+    background-image: url("../image/gift.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: 100% 100%;
+}
+
+#malus{
+    background-image: url("../image/avatar.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: 100% 100%;
+}

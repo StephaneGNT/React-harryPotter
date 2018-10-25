@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-//import Avatar from './Avatar'
-//import AttackBar from './AttackBar'
-//import DefenseBar from './DefenseBar'
+
 import ProgressBars from './HeaderProgressBars'
-//import TeamAvatar from './TeamAvatar'
 import Shield from './HeaderShield'
+import HeaderTimer from './HeaderTimer';
+
 import '../style/header.css'
 
 class Header extends Component {
@@ -32,10 +31,34 @@ class Header extends Component {
     return shieldsItem;
   }
 
+  endOfFight=()=>{
+    this.props.fighter2.life > this.props.fighter1.life ? this.props.endOfFight(this.props.fighter1.id, this.props.fighter2.id) : this.props.endOfFight(this.props.fighter2.id, this.props.fighter1.id)
+  }
+
   render() {
+
+    let avatarFighter1 = this.props.fighter1.house.name + "ID";
+    let avatarFighter2 = this.props.fighter2.house.name + "ID";
+
+    let avatar1Style = {
+      position : "absolute",
+      top : "10px",
+      left : "80px",
+      width : "80px",
+      height : "100px",
+    }
+
+    let avatar2Style = {
+      position : "absolute",
+      top : "10px",
+      left : "1380px",
+      width : "80px",
+      height : "100px",
+    }
       
     return (
       <div>
+        <div id={avatarFighter1} style={avatar1Style}></div>
         <div>
           <ProgressBars 
             fighter={this.props.fighter1}
@@ -47,6 +70,7 @@ class Header extends Component {
               this.renderShields(this.props.fighter1.defense.shieldNumber)
             } 
         </div>
+        <div id={avatarFighter2} style={avatar2Style}></div>
         <div>          
           <ProgressBars 
             fighter={this.props.fighter2}
@@ -57,6 +81,12 @@ class Header extends Component {
             {
               this.renderShields(this.props.fighter2.defense.shieldNumber)
             } 
+        </div>
+        <div>
+          <HeaderTimer
+            fightTime = {this.props.fightTime}
+            endOfFight={this.endOfFight}
+          />
         </div>
       </div>
     );

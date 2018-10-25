@@ -15,7 +15,7 @@ class HousesChoice extends Component {
     }
   }
 
-  handleClick = (houseName) => {
+  selectHouse = (houseName) => {
     // Test number of players => user is not allowed to select more houses than number of players
     if(this.state.fightersHouse.length===this.state.numberOfPlayers){
       this.setState({
@@ -49,7 +49,7 @@ class HousesChoice extends Component {
     } 
   }
 
-  handleChange=(e)=>{
+  selectNumberOfPlayers=(e)=>{
     this.setState({
       numberOfPlayers : e.target.value
     })
@@ -79,7 +79,7 @@ class HousesChoice extends Component {
           <h1  className="text-center" style={houseTitleStyle}>Choose your fighter house</h1>
           <div style={{display : playMode, textAlign:"center"}} className="text-center">
             <span style={{fontSize:"30px",marginTop:"30px", marginLeft:"25px"}}>Number of players : </span>
-            <select onChange={this.handleChange}>
+            <select onChange={this.selectNumberOfPlayers}>
               <option>3</option>
               <option>4</option>
             </select>
@@ -94,10 +94,10 @@ class HousesChoice extends Component {
             </select>
           </div>
           <div className="row">
-            <div className="shield" id="slytherin" onClick={((e) => this.handleClick("slytherin"))} style={{filter:this.state.slytherinFilter}}></div>
-            <div className="shield" id="gryffindor" onClick={((e) => this.handleClick("gryffindor"))} style={{filter:this.state.gryffindorFilter}}></div>
-            <div className="shield" id="hufflepuff" onClick={((e) => this.handleClick("hufflepuff"))} style={{filter:this.state.hufflepuffFilter}}></div>
-            <div className="shield" id="ravenclaw" onClick={((e) => this.handleClick("ravenclaw"))} style={{filter:this.state.ravenclawFilter}}></div>
+            <div className="flag" id="slytherinFlag" onClick={((e) => this.selectHouse("slytherin"))} style={{filter:this.state.slytherinFilter}}></div>
+            <div className="flag" id="gryffindorFlag" onClick={((e) => this.selectHouse("gryffindor"))} style={{filter:this.state.gryffindorFilter}}></div>
+            <div className="flag" id="hufflepuffFlag" onClick={((e) => this.selectHouse("hufflepuff"))} style={{filter:this.state.hufflepuffFilter}}></div>
+            <div className="flag" id="ravenclawFlag" onClick={((e) => this.selectHouse("ravenclaw"))} style={{filter:this.state.ravenclawFilter}}></div>
           </div>
           <div style={{textAlign:"center"}}>
               <p style={{visibility:alreadySelectedHiddenStyle, fontSize:"30px",marginTop:"10px"}}>This house has already been chosen</p>

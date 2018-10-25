@@ -11,3 +11,24 @@
     top : 55px;
     height : 30px;
 }
+
+#slytherinID{
+    background-image: url("../image/shieldslytherin.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+#gryffindorID{
+    background-image: url("../image/shieldgryffindor.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+#hufflepuffID{
+    background-image: url("../image/shieldhufflepuff.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+#ravenclawID{
+    background-image: url("../image/shieldravenclaw.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}

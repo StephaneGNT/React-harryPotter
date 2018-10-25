@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../style/homePage2.css';
+import '../style/homePage.css';
+import Instructions from '../scripts/HomePageInstructions'
 
 class HomePage extends Component {
   constructor(props){
     super(props)
     this.state={
       areSmallButtonVisible:false,
+      areInstructionsVisible:false,
     }
   }
   
-
-  handleClick(tournamentMode){
-    this.props.setTournamentMode(tournamentMode)
-  }
-
   showButton=()=>{
     this.setState({
       areSmallButtonVisible:!this.state.areSmallButtonVisible
+    })
+  }
+
+  setTournamentMode(tournamentMode){
+    this.props.setTournamentMode(tournamentMode)
+  }
+
+  toggleInstructions=()=>{
+    this.setState({
+      areInstructionsVisible:!this.state.areInstructionsVisible
     })
   }
 
@@ -36,11 +43,10 @@ class HomePage extends Component {
     let titleStyle = {
       fontSize:"200px",
       marginTop:"50px",
+      marginBottom : "100px",
       color:"#ECCA00",
       textShadow:"4px 4px 6px #CF8E19, -2px -2px 2px #fff",
     }
-
-    
 
     let titleStyle2 = {
       fontSize:"200px",
@@ -53,11 +59,9 @@ class HomePage extends Component {
       display:"block",
       fontSize: "40px",
       marginTop: "20px",
-      marginLeft: "10%",
-      width: "80%",
-      textShadow: "1px 1px #C7EACF, -1px -1px #C7EACF",
-      color:"#060B09",
-      backgroundColor:"#060B09",
+      marginLeft: "20%",
+      width: "60%",
+      color:"#000",
     }
 
     let smallButtonStyle={
@@ -66,21 +70,44 @@ class HomePage extends Component {
       marginTop: "10px",
       marginLeft: "30%",
       width: "40%",
-      backgroundColor:"#060B09",
-      color: "#C7EACF"
+      color:"#000",
+    }
+
+    let instructionStyle = {
+      display:this.state.areInstructionsVisible ? "block" : "none",
     }
 
     return (
       <div className="container-fluid" style={containerStyle}>
-        <h1 className="text-center" style={titleStyle2}>Potter Fight</h1>
+        <h1 className="text-center" style={titleStyle}>Potter Fight</h1>
         <div className="text-center">
-          <button style={bigButtonStyle} onClick={((e) => this.showButton())} >NEW FIGHT</button>
-          <Link to="/houses"><button onClick={((e) => this.handleClick(false))} style={smallButtonStyle}> 1 vs 1 </button></Link>
-          <Link to="/houses"><button onClick={((e) => this.handleClick(true))} style={smallButtonStyle}> Tournament </button></Link>
-          <Link to="/houses"><button onClick={((e) => this.handleClick(true))} style={smallButtonStyle}> Battle royale </button></Link>
+          <button style={bigButtonStyle} onClick={((e) => this.showButton())} >
+            NEW FIGHT
+          </button>
+            <Link to="/houses">
+              <button onClick={((e) => this.setTournamentMode(false))} style={smallButtonStyle}>
+                 1 vs 1 
+              </button>
+            </Link>
+            <Link to="/houses">
+              <button onClick={((e) => this.setTournamentMode(true))} style={smallButtonStyle}>
+                 Tournament 
+              </button>
+            </Link>
+            <Link to="/houses">
+              <button onClick={((e) => this.setTournamentMode(true))} style={smallButtonStyle}>
+                 Battle royale 
+              </button>
+            </Link>
         </div>
-        <button style={bigButtonStyle}>SETTINGS</button>
-        <button style={bigButtonStyle}>INSTRUCTIONS</button>
+        <button style={bigButtonStyle} >SETTINGS</button>
+        
+        <button style={bigButtonStyle} onClick={((e) => this.toggleInstructions())}>INSTRUCTIONS</button>
+        <div style={instructionStyle}>
+          <Instructions
+            toggleInstructions={this.toggleInstructions}
+          />
+        </div>
       </div>
     );
   }

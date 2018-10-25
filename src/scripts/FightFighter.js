@@ -5,86 +5,24 @@ class Fighter extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      spellCasted: false,
-      rotation: this.props.fighter.rotation,
-      facesRight: this.props.fighter.facesRight,
-      top: this.props.fighter.top,
-      left: this.props.fighter.left,
-      width: this.props.fighter.width,
-      height: this.props.fighter.height,
-      speed: 5,
-      activeKeys: [],
-      defense: this.props.fighter.defense,
-    }
+    this.rotation = this.props.fighter.layout.facesRight ? 0 : 180;
   }
 
-  componentDidMount() {
-    document.addEventListener("keydown", this.addKeyPress, false);
-    document.addEventListener("keyup", this.removeKeyPress, false);
-  }
-
-  addKeyPress = (event) => {
-    let activeKeys = this.state.activeKeys;
-    if (activeKeys.indexOf(event.key) === -1) {
-      activeKeys.push(event.key)
-    }
-    this.animateFighter(activeKeys)
-    this.setState({
-      activeKeys
-    })
-  }
-
-  removeKeyPress = (event) => {
-    let activeKeys = this.state.activeKeys;
-    activeKeys.splice(activeKeys.indexOf(event.key),1)
-    this.animateFighter(activeKeys)
-    this.setState({
-      activeKeys
-    })
-  }
-
-  animateFighter = (activeKeys) => {
-    if (activeKeys.indexOf(this.props.fighter.attack) !== -1 && this.props.fighter.attackCharacteristics.attackPoints >= this.props.fighter.attackCharacteristics.attackCost) {
-      this.props.fighter.castSpell(this.props.fighter.id, this.props.fighter.facesRight);
-    }
-    if (activeKeys.indexOf(this.props.fighter.defend) !== -1) {
-      this.props.fighter.takeOutShield(this.props.fighter.id);
-    }
-    if (activeKeys.indexOf(this.props.fighter.rotate) !== -1) {
-      this.props.fighter.rotateFighter(this.props.fighter.id, this.props.fighter.facesRight);
-    }
-    if (activeKeys.indexOf(this.props.fighter.moveUp) !== -1 && this.props.fighter.top>80) {
-      this.props.fighter.move(this.props.fighter.id, -this.state.speed, 0);
-    }
-    if (activeKeys.indexOf(this.props.fighter.moveDown) !== -1 && this.props.fighter.top+this.props.fighter.height+this.state.speed<window.innerHeight) {
-      this.props.fighter.move(this.props.fighter.id, this.state.speed, 0);
-    }
-    if (activeKeys.indexOf(this.props.fighter.moveLeft) !== -1 && this.props.fighter.left>0) {
-      this.props.fighter.move(this.props.fighter.id, 0, -this.state.speed);
-    }
-    if (activeKeys.indexOf(this.props.fighter.moveRight) !== -1 && this.props.fighter.left+this.props.fighter.width+this.state.speed<window.innerWidth) {
-      this.props.fighter.move(this.props.fighter.id, 0, this.state.speed);
-    }
-    this.setState({
-      spellCasted: this.props.fighter.spellCasted,
-      top: this.props.fighter.top,
-      left: this.props.fighter.left,
-      rotation: this.props.fighter.rotation
-    })
-  }
 
   render() {
+
     let fighterStyle = {
-      transform: `rotateY(${this.state.rotation}deg)`,
+      transform: `rotateY(${this.rotation}deg)`,
       position: "absolute",
-      top: this.state.top + "px",
-      left: this.state.left + "px",
-      width: this.state.width + "px",
-      height: this.state.height + "px",
+      top: this.props.fighter.layout.top + "px",
+      left: this.props.fighter.layout.left + "px",
+      width: this.props.fighter.layout.width + "px",
+      height: this.props.fighter.layout.height + "px",
+      transition: "top 300ms ease-in-out, left 300ms ease-in-out, width 300ms ease-in-out, height 300ms ease-in-out",
+      opacity:this.props.fighter.opacity,
     };
 
-    let fighterId = "fighter" + this.props.fighter.house
+    let fighterId = "fighter" + this.props.fighter.house.name
 
     return (
       <div>

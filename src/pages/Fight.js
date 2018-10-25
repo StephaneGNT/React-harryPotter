@@ -6,151 +6,266 @@ import Header from '../scripts/Header';
 import CombatVictory from '../scripts/FightCombatVictory'
 import TournamentVictory from '../pages/TournamentVictory'
 import WelcomeMessage from '../scripts/FightWelcomeMessage'
+import Bonus from '../scripts/FightBonus.js'
 
-//import fighterModel from '../model/fighterModel.js' 
+import fighterModel from '../model/fighterModel.js'
+import spellModel from '../model/spellModel.js'
+import bonusMalusModel from '../model/bonusMalusModel.js'
+
+
+// General static information
+
+let controlsLeft = {
+    attack: "w",
+    defend: "q",
+    rotate: "a",
+    moveUp: "e",
+    moveDown: "d",
+    moveLeft: "s",
+    moveRight: "f",
+};
+
+let controlsRight = {
+    attack: "!",
+    defend: "m",
+    rotate: "p",
+    moveUp: "ArrowUp",
+    moveDown: "ArrowDown",
+    moveLeft: "ArrowLeft",
+    moveRight: "ArrowRight",
+};
+
+let fighter1Info = {
+    id: "fighter1",
+    life: 100,
+    layout: {
+        facesRight: true,
+        top: 350,
+        left: 100,
+        width: 200,
+        height: 150,
+    },
+    animate: {
+        attack: controlsLeft.attack,
+        defend: controlsLeft.defend,
+        rotate: controlsLeft.rotate,
+        moveUp: controlsLeft.moveUp,
+        moveDown: controlsLeft.moveDown,
+        moveLeft: controlsLeft.moveLeft,
+        moveRight: controlsLeft.moveRight,
+        speed: 5,
+    },
+    house: {
+        name: "",
+        color: "",
+        secondColor: "",
+    },
+    attack: {
+        spellCasted: false,
+        attackPoints: 100,
+        attackPower: 10,
+        attackTime: 2000,
+        attackCost: 25,
+    },
+    defense: {
+        shieldOn: false,
+        shieldNumber: 3,
+        shieldTime: 3000,
+    },
+    opacity: 1,
+};
+
+let fighter2Info = {
+    id: "fighter2",
+    life: 100,
+    layout: {
+        facesRight: false,
+        top: 350,
+        left: 1250,
+        width: 200,
+        height: 150,
+    },
+    animate: {
+        attack: controlsRight.attack,
+        defend: controlsRight.defend,
+        rotate: controlsRight.rotate,
+        moveUp: controlsRight.moveUp,
+        moveDown: controlsRight.moveDown,
+        moveLeft: controlsRight.moveLeft,
+        moveRight: controlsRight.moveRight,
+        speed: 5,
+    },
+    house: {
+        name: "",
+        color: "",
+        secondColor: "",
+    },
+    attack: {
+        spellCasted: false,
+        attackPoints: 100,
+        attackPower: 10,
+        attackTime: 2000,
+        attackCost: 25,
+    },
+    defense: {
+        shieldOn: false,
+        shieldNumber: 3,
+        shieldTime: 3000,
+    },
+    opacity: 1,
+};
+
+
+
+let bonusList = ["life", "size", "speed", "attackPower", "attackCost", "attackTime", "shieldTime", "shieldNumber", "invertControls"];
 
 class Fight extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
+
+        this.tournamentVictory = false;
+        this.isFighterDead = false;
+        this.winner = {};
+        this.fightTime = 2;
+        this.activeKeys = [];
+        this.houses = this.props.fightersHouse;
+        this.colors = this.props.fightersColor;
+        this.secondColors = this.props.fightersSecondColor;
+
+        this.spellfighter1 = {
+            isVisible : false
+        }
+        this.spellfighter2 = {
+            isVisible : false
+        }
+
+        this.initiateFighters(1)
+
+        this.playersPoints = {
+            "gryffindor": 0,
+            "slytherin": 0,
+            "ravenclaw": 0,
+            "hufflepuff": 0,
+        };
+
+        this.bonus = {
+            on : false,
+        };
+        this.bonusTime = 5000;
+        this.bonusOn = true;
+        this.malusOn = true;
+
         this.state = {
-            tournamentVictory:false,
-            isFighterDead: false,
             turn: 1,
-            winner: {},
-
-            playersPoints:{
-                "gryffindor":0,
-                "slytherin":0,
-                "ravenclaw":0,
-                "hufflepuff":0,
-            },
-
-            fighter1: {
-                id: "fighter1",
-                spellCasted: false,
-                rotation: 0,
-                facesRight: true,
-                top: 250,
-                left: 100,
-                life: 100,
-                width: 250,
-                height: 200,
-                attack: "w",      // Attaque: w
-                defend: "q",    // Défense: q
-                rotate: "a",     // Rotate: a
-                moveUp: "e",         // Up: e
-                moveDown: "d",      // Down: d
-                moveLeft: "s",        // Left: s
-                moveRight: "f",       // Right: f
-                house:"",
-                castSpell: this.castSpell,
-                move: this.move,
-                rotateFighter: this.rotate,
-                takeOutShield: this.takeOutShield,
-                color: "",
-                secondColor:"",
-                style: {},
-                attackCharacteristics:{
-                    attackPoints: 100,
-                    attackPower: 10,
-                    attackTime: 2000,
-                    attackCost: 25,
-                },
-                defense:{
-                    shieldOn: false,
-                    shieldNumber: 3,
-                    shieldTime: 3000,
-                }
-            },
-            fighter2: {
-                id: "fighter2",
-                spellCasted: false,
-                rotation: 180,
-                facesRight: false,
-                top: 250,
-                left: 1100,
-                life: 100,
-                width: 250,
-                height: 200,
-                attack: "!",                 // Attaque: Ctrl 
-                defend: "m",               // Défense: !
-                rotate: "p",                // Rotate: :
-                moveUp: "ArrowUp",                 // Up: Flèche du haut
-                moveDown: "ArrowDown",               // Down: Flèche du bas
-                moveLeft: "ArrowLeft",               // Left: Flèche de gauche
-                moveRight: "ArrowRight",              // Right: Flèche de droite
-                house:"",
-                allCharacteristics: this.fighterAndSpellCallback,
-                castSpell: this.castSpell,
-                move: this.move,
-                rotateFighter: this.rotate,
-                takeOutShield: this.takeOutShield,
-                color: "",
-                secondColor:"",
-                style: {},
-                attackCharacteristics:{
-                    attackPoints: 100,
-                    attackPower: 10,
-                    attackTime: 2000,
-                    attackCost: 25,
-                },
-                defense:{
-                    shieldOn: false,
-                    shieldNumber: 3,
-                    shieldTime: 3000,
-                }
-            },
-            spellfighter1: {
-                left: 0,
-                top: 0,
-                height: 20,
-                width: 20,
-                id: "",
-                direction: 100,
-                color: "",
-            },
-            spellfighter2: {
-                left: 0,
-                top: 0,
-                height: 20,
-                width: 20,
-                id: "",
-                direction: -100,
-                color: "",
-            },
-
-            
-        }
+            tournamentVictory: this.tournamentVictory,
+            isFighterDead: this.isFighterDead,
+            winner: this.winner,
+            playersPoints: this.playersPoints,
+            fighter1: this.fighter1,
+            fighter2: this.fighter2,
+            spellfighter1: this.spellfighter1,
+            spellfighter2: this.spellfighter2,
+            activeKeys: [],
+            bonus: this.bonus,
+            collision:false,
+        };
     }
 
-    componentDidMount = () => {       
-        this.getCurrentFighters(this.state.turn);
+    componentDidMount = () => {
+        this.initiateFighters(this.state.turn);
+
+        document.addEventListener("keydown", this.addKeyPress, false);
+        document.addEventListener("keyup", this.removeKeyPress, false);
+
+        // Bonus apparition
+        if(this.bonusOn){
+            setInterval(()=>{
+                if(!this.bonus.on) this.generateBonus()
+            },this.bonusTime)
+        }
+
+        // GAME PHYSICS
+        setInterval(() => {
+            // Cast spell
+            if (this.fighter1.attack.spellCasted){
+                this.spellfighter1 = new spellModel(this.fighter1);
+                this.fighterThrowSpell(this.fighter1, this.fighter2, this.spellfighter1);
+                this.fighter1.attack.spellCasted = false;
+            }
+            if (this.fighter2.attack.spellCasted){
+                this.spellfighter2 = new spellModel(this.fighter2);
+                this.fighterThrowSpell(this.fighter2, this.fighter1, this.spellfighter2);
+                this.fighter2.attack.spellCasted = false;
+            }
+
+            // Bonus-Malus recuperation
+            if (this.bonus.on && this.collides(this.fighter1, this.bonus)){
+                this.getBonus(this.fighter1, this.bonus, this.fighter2)
+                this.bonus.destroy()
+            }
+            if (this.bonus.on && this.collides(this.fighter2, this.bonus)){
+                this.getBonus(this.fighter2, this.bonus, this.fighter1)
+                this.bonus.destroy()
+            }
+        }, 100)
+
+        // Update states
+        setInterval(() => {
+            this.setState({
+                fighter1: this.fighter1,
+                fighter2: this.fighter2,
+                playersPoints: this.playersPoints,
+                spellfighter1: this.spellfighter1,
+                spellfighter2: this.spellfighter2,
+                winner: this.winner,
+                tournamentVictory: this.tournamentVictory,
+                isFighterDead: this.isFighterDead,
+                bonus: this.bonus,
+            })
+        }, 300)
     }
 
-    componentDidUpdate=()=>{
-        if(this.state.fighter1.spellCasted){
-            setInterval(() => {
-                // Collision detection between a spell and a wizard
-                if (this.hasCollision(this.state.spellfighter1, this.state.fighter2))
-                    this.hasBeenTouched(this.state.fighter2.id, this.state.fighter1.id);
-            }, 10)
+    // KEY LISTENER FOR FIGHTERS ANIMATION
+    addKeyPress = (event) => {
+        if (this.activeKeys.indexOf(event.key) === -1) {
+            this.activeKeys.push(event.key)
         }
-        if(this.state.fighter2.spellCasted){
-            setInterval(() => {
-                // Collision detection between a spell and a wizard
-                if (this.hasCollision(this.state.spellfighter2, this.state.fighter1))
-                    this.hasBeenTouched(this.state.fighter1.id, this.state.fighter2.id);
-            }, 10)
-        }
+        this.animateFighter(this.activeKeys)
+    }
+    removeKeyPress = (event) => {
+        this.activeKeys.splice(this.activeKeys.indexOf(event.key))
+        this.animateFighter(this.activeKeys)
+    }
+    animateFighter = (activeKeys) => {
+        this.fighter1.animateFighter(activeKeys);
+        this.fighter2.animateFighter(activeKeys);
+    }
+
+    // SPELL THROW
+    fighterThrowSpell(shooter, target, spell){
+        spell.animate(shooter);
+
+        let collisionDetectionIntervall = setInterval(()=>{
+            if(this.collides(spell, target)){
+                if(!target.defense.shieldOn){
+                    target.getImpacted(shooter.attack.attackPower);
+                    spell.destroy();
+                    clearInterval(collisionDetectionIntervall)
+                }
+            }
+            if(target.life <= 0){
+                console.log(target.id+" is dead")
+                this.endOfFight(target, shooter)
+            }
+        },10)    
     }
 
     // Fighters selection depending on turn and number of players
-    getCurrentFighters = (turn) => {
-        //if (turn === undefined) turn=1;
-
+    initiateFighters = (turn) => {
         let i = 0;
         let j = 1;
+
         switch (this.props.fightersHouse.length) {
             case 3:
                 switch (turn) {
@@ -170,403 +285,213 @@ class Fight extends Component {
                 };
                 break;
             default: { i = 0; j = 1 }; break;
+        };
+
+        fighter1Info = {
+            ...fighter1Info,
+            house: {
+                name: this.props.fightersHouse[i],
+                color: this.props.fightersColor[i],
+                secondColor: this.props.fightersSecondColor[i],
+            },
         }
+        this.fighter1 = new fighterModel(fighter1Info)
 
-        this.setState({
-            fighter1: {
-                ...this.state.fighter1,
-                life:100,
-                house:this.props.fightersHouse[i],
-                color:this.props.fightersColor[i],
-                secondColor:this.props.fightersSecondColor[i],
-                style:{
-                    opacity:1
-                },
+        fighter2Info = {
+            ...fighter2Info,
+            house: {
+                name: this.props.fightersHouse[j],
+                color: this.props.fightersColor[j],
+                secondColor: this.props.fightersSecondColor[j],
             },
-            fighter2: {
-                ...this.state.fighter2,
-                life:100,
-                house:this.props.fightersHouse[j],
-                color:this.props.fightersColor[j],
-                secondColor:this.props.fightersSecondColor[j],
-                style:{
-                    opacity:1
-                },
-            },
-            spellfighter1: {
-                ...this.state.spellfighter1,
-                id: "spell"+this.props.fightersHouse[i],
-                color:this.props.fightersColor[i],
-            },
-            spellfighter2: {
-                ...this.state.spellfighter2,
-                id: "spell"+this.props.fightersHouse[j],
-                color:this.props.fightersColor[j],
-            },
-            turn:turn,
-        })
+        }
+        this.fighter2 = new fighterModel(fighter2Info)
+
+        this.turn = turn;
     }
 
-    // Cast spell function
-    castSpell = (fighterID, facesRight) => {
-        let spellID = "spell" + fighterID
-        let x = facesRight ? 260 : -30;
+    generateBonus = () => {
+        let bonusInfo = {
+            coeff : this.malusOn ? (Math.random() < 0.5 ? -1 : 1) : 1,
+            //chosenSort : bonusList[Math.floor(Math.random()*bonusList.length)]
+            chosenSort : bonusList[8]
+        }
+        this.bonus = new bonusMalusModel(bonusInfo)
+        this.bonus.appear()    
+    }
+    // Render bonus / malus
+    renderBonus = () => {
+        if (this.bonus.on) {
+            return <Bonus
+                bonus={this.bonus}
+            />
+        }
+        return
+    }
 
-        // Spell apparition
-        this.setState({
-            [fighterID]: {
-                ...this.state[fighterID],
-                spellCasted: true,
-                attackCharacteristics:{
-                    ...this.state[fighterID].attackCharacteristics,
-                    attackPoints: this.state[fighterID].attackCharacteristics.attackPoints-this.state[fighterID].attackCharacteristics.attackCost
-                }
-            },
-            [spellID]: {
-                ...this.state[spellID],
-                left: this.state[fighterID].left + x, // Initital horiz. position
-                top: this.state[fighterID].top + 80,  // Initital vert. position
-                direction: x / Math.abs(x)            // Initital direction
-            }
-        })
-        // Spell movement
-        let spellIntervall = setInterval(() => {
-            this.setState({
-                [spellID]: {
-                    ...this.state[spellID],
-                    left: this.state[spellID].left + 10*this.state[spellID].direction,
-                }
-            })
-        }, 10)
-        // Destruction of spell
-        setTimeout(
-            function() {
-                clearInterval(spellIntervall);
-                this.setState({
-                    [fighterID]: {
-                        ...this.state[fighterID],
-                        spellCasted: false,
-                    }
-                });
-            }
-            .bind(this),
-            2000
-        );
+    // End of a fight (death of a fighter or end of timer)
+    endOfFight = (loser, winner) => {
+        this.isFighterDead = true;
 
-        /*let i=this.state[fighterID].attackCharacteristics.attackPoints
-        for (i; i <= 100; ++i) {
-            console.log(i);
-            (function(n) {
-                setTimeout(function(){
-                    n++;
-                }, 1000);
-                //return n;
-            }(i));
-        }*/
-
-        // ATTEMPT 1 : same animation @decrease and increase
-        setTimeout(()=>{
-            this.setState({
-                [fighterID]:{
-                    ...this.state[fighterID],
-                    attackCharacteristics:{
-                        ...this.state[fighterID].attackCharacteristics,
-                        attackPoints:this.state[fighterID].attackCharacteristics.attackPoints+this.state[fighterID].attackCharacteristics.attackCost
-                    }
-                }
-            })
-        },this.state[fighterID].attackCharacteristics.attackTime)
-
-        // ATTEMPT 2 : while loop with local variable & setTimeOut => localAttackPoints does not increase, infinite loop
-        /*let localAttackPoints=this.state[fighterID].attackCharacteristics.attackPoints;
-        while(localAttackPoints <= 100){
-            setTimeout(()=>{
-                localAttackPoints=localAttackPoints+1
-            },1000)
-            console.log("localAttackPoints = "+localAttackPoints)
-        }*/
+        let winningHouse = winner.house.name;
+        let losingHouse = loser.house.name;
+        loser.opacity = 0;
+        this.winner = winner;
         
-        // ATTEMPT 3 : while loop with local variable & setTimeOut in outter function => same as ATTEMPT 2
-        /*let localAttackPoints=this.state[fighterID].attackCharacteristics.attackPoints;
-        while(localAttackPoints <= 100){
-            this.increase(localAttackPoints)
-            console.log(localAttackPoints)
-        }*/
-
-        // EXERCICE THÉORIQUE : setTimeOut non pris en compte
-        //let i=this.state[fighterID].attackCharacteristics.attackPoints
-        /*for (let i=0; i <= 30; ++i) {
-            console.log(i);
-            (function(n) {
-                setTimeout(function(){
-                    n++;
-                }, 1000);
-                //return n;
-            }(i));
-        }*/
-    }
+        this.playersPoints = {
+            ...this.playersPoints,
+            [winningHouse]: this.playersPoints[winningHouse] + winner.life,
+            [losingHouse]: this.playersPoints[losingHouse] + loser.life,
+        };
         
-    
-
-    increase = (localAttackPoints) => {
-        setTimeout(()=>{
-            localAttackPoints=localAttackPoints+1
-        },1000)
+        if ((this.props.fightersHouse.length === 3 && this.turn === 3) || (this.props.fightersHouse.length === 4 && this.turn === 6)) {
+            this.tournamentVictory = true
+        }
     }
 
-    // Wizard movement function
-    move = (fighterID, x, y) => {
-        this.setState({
-            [fighterID]: {
-                ...this.state[fighterID],
-                top: this.state[fighterID].top + x,
-                left: this.state[fighterID].left + y,
-            }
-        })
-    }
-
-    // Wizard rotation function
-    rotate = (fighterID) => {
-        this.setState({
-            [fighterID]: {
-                ...this.state[fighterID],
-                rotation: this.state[fighterID].rotation - 180,
-                facesRight: !this.state[fighterID].facesRight,
-            }
-        })
-    }
-
-    // Wizard shield function
-    takeOutShield = (fighterID) => {
-        this.setState({
-            [fighterID]:{
-                ...this.state[fighterID],
-                defense:{
-                    ...this.state[fighterID].defense,
-                    shieldOn: true,
-                    shieldNumber: this.state[fighterID].defense.shieldNumber-1,
-                },
-            }
-        })
-        setTimeout(
-            function() {
-                this.setState({
-                    [fighterID]:{
-                        ...this.state[fighterID],
-                        defense:{
-                            ...this.state[fighterID].defense,
-                            shieldOn: false,
-                        },
-                    }
-                })
-            }
-            .bind(this),
-            this.state[fighterID].defense.shieldTime
-        );
+    getBonus = (fighter, bonus, otherFighter) => {
+        let bonusMultiply = bonus.coeff > 0 ? 5 : 0.2;
+        switch (bonus.chosenSort) {
+            case ("life"): fighter.impactLife(bonus.coeff * 10); break;
+            case ("size"): fighter.impactSize(1/bonusMultiply); break;
+            case ("speed"): fighter.impactSpeed(Math.pow(bonusMultiply, 2)); break;
+            case ("attackPower"): fighter.impactAttackPower(bonusMultiply); break;
+            case ("attackCost"): fighter.impactAttackCost(1 / bonusMultiply); break;
+            case ("attackTime"): fighter.impactAttackTime(1 / bonusMultiply); break;
+            case ("shieldTime"): fighter.impactDefenseTime(bonus.coeff*1000); break;
+            case ("shieldNumber"): fighter.impactShieldNumber(bonus.coeff); break;
+            case ("invertControls"): 
+                {
+                    if(bonus.coeff === -1) fighter.invertControls(); 
+                    else otherFighter.invertControls()
+                }; break;
+        }
     }
 
     // Collision detection function
-    hasCollision(object1, object2) {
-        if (object1.top < object2.top + object2.width &&
-            object1.top + object1.width > object2.top &&
-            object1.left < object2.left + object2.height &&
-            object1.height + object1.left > object2.left) {
-            return true
+    collides(object1, object2) {
+        if (object1.layout.top < object2.layout.top + object2.layout.width &&
+            object1.layout.top + object1.layout.width > object2.layout.top &&
+            object1.layout.left < object2.layout.left + object2.layout.height &&
+            object1.layout.height + object1.layout.left > object2.layout.left) {
+                console.log("Collisioooooooooooooooo")
+                return true
         }
         else {
             return false
         };
     };
 
-    // Consequences of a fighter being hitten
-    hasBeenTouched = (touchedFighterID, shooterFighterID) => {
-        let spellShooter = "spell" + shooterFighterID;
-        this.setState({
-            [touchedFighterID]: {
-                ...this.state[touchedFighterID],
-                life: this.state[touchedFighterID].life - this.state[shooterFighterID].attackCharacteristics.attackPower,
-            },
-            [shooterFighterID]: {
-                ...this.state[shooterFighterID],
-                spellCasted: false,
-            },
-            [spellShooter]: {
-                ...this.state[spellShooter],
-                top: 0,
-                left: 0,
-            }
-        })
-
-        if (this.state[touchedFighterID].life === 0) {
-            this.setState({
-                isFighterDead: true,
-            });
-            this.deathOfAFighter(touchedFighterID, shooterFighterID)
-        }
+    restartFight = () => {
+        this.initiateFighters(1);
+        this.isFighterDead = false;
+    }
+    nextFight = (turn) => {
+        this.initiateFighters(turn);
+        this.isFighterDead = false
     }
 
-    // End of a fight (death of a fighter or end of timer)
-    deathOfAFighter = (deadFighterID, aliveFighterID) => {
-        let winningHouse=this.state[aliveFighterID].house
-        let losingHouse=this.state[deadFighterID].house
-        this.setState({
-            [deadFighterID]: {
-                ...this.state[deadFighterID],
-                style: {
-                    opacity: 0
-                }
-            },
-            winner: {
-                ...this.state[aliveFighterID]
-            },
-            playersPoints:{
-                ...this.state.playersPoints,
-                [winningHouse]:this.state.playersPoints[winningHouse]+this.state[aliveFighterID].life,
-                [losingHouse]:this.state.playersPoints[losingHouse]+this.state[deadFighterID].life,
-            },
-            isFighterDead: true,
-        })
-        
-        if((this.props.fightersHouse.length === 3 && this.state.turn === 3) || (this.props.fightersHouse.length === 4 && this.state.turn===6)){
-            this.setState({
-                tournamentVictory:true
-            })
-        }
-    }
-    
-    restartFight=()=>{
-        this.setState({
-            fighter1:{
-                ...this.state.fighter1,
-                life:100,
-                spellCasted:false,
-                style:{
-                    opacity:1
-                },
-                top: 250,
-                left: 100,
-                facesRight: true,
-                rotation: 0,
-            },
-            fighter2:{
-                ...this.state.fighter2,
-                life:100,
-                spellCasted:false,
-                style:{
-                    opacity:1
-                },
-                top: 250,
-                left: 1100,
-                facesRight: false,
-                rotation: 180,
-            },
-            isFighterDead: false,
-        })
-    }
 
-    nextFight=(turn)=>{
-        this.getCurrentFighters(turn);
-        this.setState({
-            isFighterDead:false,
-        })
-    }
 
     render() {
 
-        let fighter1Info={
-            color: this.state.fighter1.color,
-            secondColor: this.state.fighter1.secondColor,
-            house: this.state.fighter1.house,
+        let fighter1Info = {
+            color: this.fighter1.house.color,
+            secondColor: this.fighter1.house.secondColor,
+            house: this.fighter1.house.name,
         }
 
-        let fighter2Info={
-            color: this.state.fighter2.color,
-            secondColor: this.state.fighter2.secondColor,
-            house: this.state.fighter2.house,
+        let fighter2Info = {
+            color: this.fighter2.house.color,
+            secondColor: this.fighter2.house.secondColor,
+            house: this.fighter2.house.name,
         }
 
         return (
-            <div> 
-            {
-                this.state.tournamentVictory ?
-                    <TournamentVictory
-                        points={this.state.playersPoints}
-                        houses={this.props.fightersHouse}
-                    />
-                :
-                <div>    
-                    <div>
-                        <Header
-                            fighter1={this.state.fighter1}
-                            fighter2={this.state.fighter2}
+            <div>
+                {
+                    this.state.tournamentVictory ?
+                        <TournamentVictory
+                            points={this.playersPoints}
+                            houses={this.props.fightersHouse}
                         />
-                    </div>
-                    <div>
-                        <WelcomeMessage
-                            fighter1Info={fighter1Info}
-                            fighter2Info={fighter2Info}
-                        />
-                    </div>
-                    <div style={this.state.fighter1.style}>
-                        <Fighter                // Player#1
-                            fighter={this.state.fighter1}
-                        />
-                    </div>
-                    <div>{
-                        this.state.fighter1.spellCasted ?
-                            <Spell
-                                spell={this.state.spellfighter1}
-                            />
-                            :
-                            <div></div>
-                    }</div>
-                    <div>{
-                        this.state.fighter1.defense.shieldOn ?
-                            <Shield
-                                fighter={this.state.fighter1}
-                            />
-                            :
-                            <div></div>
-                    }</div>
-                    <div style={this.state.fighter2.style}>
-                        <Fighter                // Player#2
-                            fighter={this.state.fighter2}
-                        />
-                    </div>
-                    <div>{
-                        this.state.fighter2.spellCasted ?
-                            <Spell
-                                spell={this.state.spellfighter2}
-                            />
-                            :
-                            <div></div>
-                    }</div>
-                    <div>{
-                        this.state.fighter2.defense.shieldOn ?
-                            <Shield
-                                fighter={this.state.fighter2}
-                            />
-                            :
-                            <div></div>
-                    }</div>
-                    <div>{
-                        this.state.isFighterDead ?
-                            <CombatVictory
-                                winner={this.state.winner}
-                                getCurrentFighters={this.getCurrentFighters}
-                                turn={this.state.turn}
-                                tournamentMode={this.props.tournamentMode}
-                                restartFight={this.restartFight}
-                                nextFight={this.nextFight}
-                            /> 
-                            :
-                            <div></div>
-                    }</div>
-                </div>
-            }</div>
+                        :
+                        <div>
+                            <div>
+                                <Header
+                                    fighter1={this.fighter1}
+                                    fighter2={this.fighter2}
+                                    fightTime={this.fightTime}
+                                    endOfFight={this.endOfFight}
+                                />
+                            </div>
+                            <div>
+                                <WelcomeMessage
+                                    fighter1Info={fighter1Info}
+                                    fighter2Info={fighter2Info}
+                                />
+                            </div>
+                            <div>
+                                <Fighter                // Player#1
+                                    fighter={this.fighter1}
+                                />
+                            </div>
+                            <div>{
+                                this.spellfighter1.isVisible ?
+                                    <Spell
+                                        spell={this.spellfighter1}
+                                    />
+                                    :
+                                    <div></div>
+                            }</div>
+                            <div>{
+                                this.fighter1.defense.shieldOn ?
+                                    <Shield
+                                        fighter={this.fighter1}
+                                    />
+                                    :
+                                    <div></div>
+                            }</div>
+                            <div>
+                                <Fighter                // Player#2
+                                    fighter={this.fighter2}
+                                />
+                            </div>
+                            <div>{
+                                this.spellfighter2.isVisible ?
+                                    <Spell
+                                        spell={this.spellfighter2}
+                                    />
+                                    :
+                                    <div></div>
+                            }</div>
+                            <div>{
+                                this.fighter2.defense.shieldOn ?
+                                    <Shield
+                                        fighter={this.fighter2}
+                                    />
+                                    :
+                                    <div></div>
+                            }</div>
+                            {this.renderBonus()}
+                            <div>{
+                                this.isFighterDead ?
+                                    <CombatVictory
+                                        winner={this.winner}
+                                        getCurrentFighters={this.getCurrentFighters}
+                                        turn={this.turn}
+                                        tournamentMode={this.props.tournamentMode}
+                                        restartFight={this.restartFight}
+                                        nextFight={this.nextFight}
+                                    />
+                                    :
+                                    <div></div>
+                            }</div>
+                        </div>
+                }</div>
         );
     }
-    
+
 }
 
 export default Fight;

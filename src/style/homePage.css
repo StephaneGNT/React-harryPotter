@@ -1,6 +1,6 @@
-/*.container-fluid{
-    background-image: url("../image/salleChateau.jpg");
-}*/
+.container-fluid{
+    background-image: url("../image/backgroundQuidditch.jpg");
+}
 
 .container-fluid button{
     background-image: url("../image/parchemin.png");
