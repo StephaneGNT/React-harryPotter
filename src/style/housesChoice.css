@@ -1,26 +1,73 @@
+#houseSelection{
+    width: 100%;
+    height: 100%;
+    background-image: url("../image/background/backgroundQuidditch.jpg");
+    background-size: 100% 100%;
+    padding: 7vh;
+}
+
+#houseSelection h1{
+    font-size:100px;
+    color:#ECCA00;
+    text-shadow:4px 4px 6px #CF8E19, -2px -2px 2px #fff;
+    margin-bottom: 5vh;
+}
+
+#numberOfPlayers{
+    text-align:center;
+    width:100%;
+}
+
+#numberOfPlayers span{
+    font-size:30px;
+    color:#ECCA00;
+}
+
+#flagsRow{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .flag{
-    width: 200px;
-    height: 300px;
+    width: 25vh;
+    height: 50vh;
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
-    margin: 25px 40px;
-    /*background-size: 200px 250px;*/
-    /*position: absolute;*/
 }
 
 #slytherinFlag{
     background-image: url("../image/flagslytherin.png");
-    left: 50px;
+    /* left: 50px; */
 }
 #gryffindorFlag{
     background-image: url("../image/flaggryffindor.png");
-    left: 300px;
+    /* left: 300px; */
 }
 #hufflepuffFlag{
     background-image: url("../image/flaghufflepuff.png");
-    left: 550px;
+    /* left: 550px; */
 }
 #ravenclawFlag{
     background-image: url("../image/flagravenclaw.png");
-    left: 800px;
+    /* left: 800px; */
+}
+
+#errorMessage{
+    color:#CF8E19;
+    font-size: 50px;
+    text-shadow:1px 1px #000, -1px -1px #000;
+}
+
+#houseSelection button{
+    background-image: url("../image/parchemin.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid black;
+    border-radius: 0px;
+    width : 200px;
+    height: 50px;
 }

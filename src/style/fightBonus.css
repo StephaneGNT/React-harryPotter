@@ -6,7 +6,7 @@
 }
 
 #malus{
-    background-image: url("../image/avatar.png");
+    background-image: url("../image/malus.png");
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: 100% 100%;

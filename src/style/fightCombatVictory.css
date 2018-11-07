@@ -1,0 +1,30 @@
+#combatVictory{
+    text-align: center;
+}
+
+#combatVictory button{
+    width: 125px;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    font-size: 25px;
+    background-image: url("../image/parchemin.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+    border-radius: 5px;
+}
+
+#buttonRow{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#firstButton{ 
+    left: 0px;
+}
+#secondButton{
+    right: 0px;    
+}

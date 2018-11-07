@@ -1,40 +1,71 @@
 import React, { Component } from 'react';
-import './App.css';
-import HomePage from './pages/HomePage';
-import HousesChoice from './pages/HousesChoice';
-//import ArenaChoice from './scripts/ArenaChoice';
-import Fight from './pages/Fight';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
-const Context = React.createContext();
-class App extends Component {
+import HomePage from './pages/HomePage';
+import HousesChoice from './pages/HousesChoice';
+// import ArenaChoice from './scripts/ArenaChoice';
+import Fight from './pages/Fight';
 
+import './App.css';
+
+import music from './sound/backgroundMusic.mp3';
+
+const houses = [
+  {
+    name: 'gryffindor',
+    color: 'rgb(255, 0, 0)',
+    secondColor: 'rgb(201,31,31)',
+  },
+  {
+    name: 'slytherin',
+    color: 'rgb(75, 220, 80)',
+    secondColor: 'rgb(27,146,31)',
+  },
+  {
+    name: 'hufflepuff',
+    color: 'rgb(255, 255, 0)',
+    secondColor: 'rgb(215,215,8)',
+  },
+  {
+    name: 'ravenclaw',
+    color: 'rgb(0, 0, 255)',
+    secondColor: 'rgb(48,48,131)',
+  },
+];
+
+class App extends Component {
   constructor() {
-    super()
+    super();
 
     this.state = {
       houseSelect: {
         returnHouse: this.listFighters,
         tournamentMode: false,
-        fightersHouse: ["slytherin", "gryffindor"],
-        fightersColor: ["rgb(75, 220, 80)", "rgb(255, 0, 0)"],
-        fightersSecondColor: ["rgb(27,146,31)","rgb(201,31,31)"],
-        numberOfPlayers:2,
+        fightersHouse: [],
+        fightersColor: [],
+        fightersSecondColor: [],
+        numberOfPlayers: 2,
       },
-    }
+      musicVolume: 1,
+      soundEffectVolume:1,
+    };
+
+    this.backgroundMusic = new Audio(music);
+    this.backgroundMusic.play();
+    this.backgroundMusic.volume = this.state.musicVolume;
   }
 
   listFighters = (fighterID) => {
-    let tempHouses=[]
-    let tempColor=[];
-    let tempSecondColor=[];
-    let fighterColor = "";
-    let fighterSecondColor=""
+    const tempHouses = [];
+    const tempColor = [];
+    const tempSecondColor = [];
+    let fighterColor = '';
+    let fighterSecondColor = '';
     switch (fighterID) {
-      case "gryffindor": {fighterColor = "rgb(255, 0, 0)" ; fighterSecondColor="rgb(201,31,31)"}; break;
-      case "slytherin": {fighterColor = "rgb(75, 220, 80)" ; fighterSecondColor="rgb(27,146,31)"}; break;
-      case "hufflepuff": {fighterColor = "rgb(255, 255, 0)" ; fighterSecondColor="rgb(215,215,8)"}; break;
-      case "ravenclaw": {fighterColor = "rgb(0, 0, 255)" ; fighterSecondColor="rgb(48,48,131)"}; break;
+      case 'gryffindor': { fighterColor = "rgb(255, 0, 0)" ; fighterSecondColor = "rgb(201,31,31)" }; break;
+      case 'slytherin': { fighterColor = "rgb(75, 220, 80)" ; fighterSecondColor = "rgb(27,146,31)" }; break;
+      case 'hufflepuff': { fighterColor = "rgb(255, 255, 0)" ; fighterSecondColor = "rgb(215,215,8)" }; break;
+      default: { fighterColor = "rgb(0, 0, 255)" ; fighterSecondColor = "rgb(48,48,131)" }; break;
     }
     tempHouses.push(fighterID);
     tempColor.push(fighterColor);
@@ -57,6 +88,38 @@ class App extends Component {
     })
   }
 
+  componentDidUpdate=()=>{
+    this.backgroundMusic.volume = this.state.musicVolume;
+    this.soundsVolume = this.state.soundEffectVolume;
+  }
+
+  resetGame = () => {
+    this.setState({
+      houseSelect: {
+        returnHouse: this.listFighters,
+        tournamentMode: false,
+        fightersHouse: [],
+        fightersColor: [],
+        fightersSecondColor: [],
+        numberOfPlayers:2,
+      }
+    })
+  }
+
+  setVolume = (target, bool) => {
+    console.log("in app ", target, bool)
+    //console.log("in app.js", target, bool, target.includes('Sound'))
+    if (target.includes('Music')) {
+      if (!bool) this.setState({ musicVolume: 0 });
+      else this.setState({ musicVolume: 1 });
+    }
+    else if (target.includes('Sound')) {
+      console.log("réglages son", bool)
+      if (!bool) this.setState({ soundVolume: 0 });
+      else this.setState({ soundVolume: 1 });
+    }
+  }
+
   render() {
 
     return (
@@ -68,6 +131,8 @@ class App extends Component {
               render={() => (
                 <HomePage 
                   setTournamentMode={this.setTournamentMode}
+                  sounds={this.state.sounds}
+                  setVolume={this.setVolume}
                 />
               )}
             />
@@ -86,6 +151,8 @@ class App extends Component {
                   fightersColor={this.state.houseSelect.fightersColor}
                   fightersSecondColor={this.state.houseSelect.fightersSecondColor}
                   tournamentMode={this.state.houseSelect.tournamentMode}
+                  resetGame = {this.resetGame}
+                  volume = {[this.state.musicVolume, this.state.soundEffectVolume]}
                 />)}
             />
           </Switch>

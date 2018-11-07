@@ -1,0 +1,49 @@
+#settingsTable{
+  position : absolute;
+  left: 10vw;
+  top : 3vh;
+  width : 80vw;
+  height : 92vh;
+  padding: 30px;
+  background-image: url("../image/parchemin.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color : black;
+  z-index : 10;
+  font-size : 40px;
+  border-radius: 5px;
+}
+
+#settingsTable p{
+  font-size: 20px;
+  margin : 0;
+  padding : 0;
+  text-align: right
+}
+
+#settingsTable table{
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 1000px;
+  margin: auto;
+}
+
+#settingsTable th, #settingsTable tr, #settingsTable td{
+  text-align: center;
+  border: 1px solid black;
+  padding: 0px 15px;
+}
+
+#settingsTable .row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#settingsTable button, #settingsTable img{
+  width: 30px;
+  height: 30px;
+}
+
+

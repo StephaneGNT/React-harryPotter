@@ -1,5 +1,19 @@
 .container-fluid{
-    background-image: url("../image/backgroundQuidditch.jpg");
+    background-image: url("../image/background/backgroundQuidditch.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 50px;
+    height: 100vh;
+}
+
+.container-fluid h1{
+    font-size:200px;
+    margin-bottom : 50px;
+    color:#ECCA00;
+    text-shadow:4px 4px 6px #CF8E19, -2px -2px 2px #fff;
+    text-align: center;
 }
 
 .container-fluid button{
@@ -10,10 +24,27 @@
     border-radius: 5px;
 }
 
-.container-fluid button:hover{
+.container-fluid button:active, .container-fluid button:focus{
+    outline: none;
+}
+
+.container-fluid a:hover{
     text-decoration: none;
 }
 
-.container-fluid Link:hover{
-    text-decoration: none;
+.bigButton{
+    display:block;
+    font-size: 40px;
+    margin-top:20px;
+    margin-left:20%;
+    width:60%;
+    color:#000;
+}
+
+.smallButton{
+    font-size: 30px;
+    margin-top: 10px;
+    margin-left: 30%;
+    width: 40%;
+    color:#000;
 }
