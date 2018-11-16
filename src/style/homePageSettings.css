@@ -1,31 +1,31 @@
 #settingsTable{
   position : absolute;
-  left: 10vw;
-  top : 3vh;
-  width : 80vw;
-  height : 92vh;
-  padding: 30px;
+  left: 25vw;
+  top : 25vh;
+  width : 50vw;
+  height : 50vh;
   background-image: url("../image/parchemin.png");
   background-repeat: no-repeat;
   background-size: cover;
-  color : black;
+  padding: 15px;
   z-index : 10;
   font-size : 40px;
   border-radius: 5px;
 }
 
 #settingsTable p{
+  width: 40vw;
+  margin-left: 5vw;
+  margin-top: 3vh;
   font-size: 20px;
-  margin : 0;
-  padding : 0;
   text-align: right
 }
 
 #settingsTable table{
   border: 1px solid black;
   border-collapse: collapse;
-  width: 1000px;
-  margin: auto;
+  width: 40vw;
+  margin-left: 5vw
 }
 
 #settingsTable th, #settingsTable tr, #settingsTable td{

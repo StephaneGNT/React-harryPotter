@@ -1,17 +1,14 @@
-import React, { Component } from 'react'
-import '../style/headerShield.css'
+import React from 'react';
+import '../style/headerShield.css';
 
-class Shield extends Component {
+// class Shield extends Component {
+//   render () {
+//     return (
+//         <div className="defenseShield" />
+//     )
+//   }
+// }
 
-    constructor(props){
-        super(props)
-    }
+const Shield = () => <div className="defenseShield" />;
 
-    render () {
-        return (
-            <div className="defenseShield"></div>
-        )
-    }
-}
-
-export default Shield
+export default Shield;

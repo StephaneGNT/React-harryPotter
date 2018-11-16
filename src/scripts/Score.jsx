@@ -1,24 +1,16 @@
-import React, { Component } from 'react'
-import '../style/scoreBar.css'
+import React from 'react';
+import '../style/scoreBar.css';
 
-class Score extends Component {
+const Score = (props) => {
+  const scoreStyle = {
+    backgroundColor: props.fighter.color,
+  };
 
-    constructor(props){
-        super(props)
-    }
+  return (
+    <div style={scoreStyle} className="score">
+      <span>{props.fighter.house} : </span>{props.fighter.points}
+    </div>
+  );
+};
 
-    render () {
-
-        let scoreStyle = {
-            backgroundColor : this.props.fighter.color,
-        }
-
-        return (
-            <div style={scoreStyle} class="score">
-                <span>{this.props.fighter.house} : </span>{this.props.fighter.points}
-            </div>
-        )
-    }
-}
-
-export default Score
+export default Score;

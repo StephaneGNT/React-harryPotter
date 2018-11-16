@@ -1,0 +1,7 @@
+.fighterImpact{
+  background-image: url("../image/wizardShot.png");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: 100% 100%;
+  position: absolute;
+}

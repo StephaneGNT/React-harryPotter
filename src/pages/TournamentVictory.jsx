@@ -30,13 +30,13 @@ class TournamentVictory extends Component {
     }
 
     getWinnerColor = () => {
-      const { winnerColor } = this.props;
+      //const { winnerColor } = this.props;
 
       switch (this.classifiedPlayers[0]) {
-        case 'gryffindor': { winnerColor[0] = 'rgb(255, 0, 0)' ; winnerColor[1]='rgb(201,31,31)' } break;
-        case 'slytherin': {winnerColor[0] = 'rgb(75, 220, 80)' ; winnerColor[1]='rgb(27,146,31)'} break;
-        case 'hufflepuff': {winnerColor[0] = 'rgb(255, 255, 0)' ; winnerColor[1]='rgb(215,215,8)'} break;
-        default: {winnerColor[0] = 'rgb(0, 0, 255)' ; winnerColor[1]='rgb(48,48,131)'} break;
+        case 'gryffindor': { this.winnerColor[0] = 'rgb(255, 0, 0)' ; this.winnerColor[1]='rgb(201,31,31)' };break;
+        case 'slytherin': {this.winnerColor[0] = 'rgb(75, 220, 80)' ; this.winnerColor[1]='rgb(27,146,31)'}; break;
+        case 'hufflepuff': {this.winnerColor[0] = 'rgb(255, 255, 0)' ; this.winnerColor[1]='rgb(215,215,8)'}; break;
+        default: {this.winnerColor[0] = 'rgb(0, 0, 255)' ; this.winnerColor[1]='rgb(48,48,131)'}; break;
       }
     }
 

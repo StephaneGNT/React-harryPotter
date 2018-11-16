@@ -1,4 +1,5 @@
 import React from 'react';
+
 import volumeOn from '../image/volumeOn.png';
 import volumeOff from '../image/volumeOff.png';
 
@@ -10,17 +11,17 @@ export default class Settings extends React.Component {
     this.state = {
       isMusicOn: true,
       isSoundEffectOn: true,
+      bonusOn : true,
+      malusOn : true,
+      malusEnabled: true,
     };
   }
 
-  
-
-  close = ()=>{
+  close = () => {
     this.props.toggleSettings();
   }
 
   toggle = (inputToToggle) => {
-    console.log("in settings ", inputToToggle)
     this.props[inputToToggle](inputToToggle, !this.state[inputToToggle]);
     this.setState({
       [inputToToggle]: !this.state[inputToToggle]
@@ -35,6 +36,31 @@ export default class Settings extends React.Component {
   renderSound = () => {
     if (this.state.isSoundEffectOn) return (<button type="button" onClick={() => { this.toggle('isSoundEffectOn'); }}><img src={volumeOn} alt="sound on" /></button>)
     return (<button type="button" onClick={() => { this.toggle('isSoundEffectOn'); }}><img src={volumeOff} alt="sound off" /></button>)
+  }
+
+  renderBonus = () => {
+    let message = this.state.bonusOn ? 'ON' : 'OFF';
+    return <button onClick={(e) => this.toggleBonus(e)}>{message}</button>
+  }
+
+  toggleBonus = () => {
+    this.setState({
+      bonusOn: !this.state.bonusOn,
+      malusOn: false,
+      malusEnabled: this.state.bonusOn,
+    });
+  }
+
+  renderMalus = () => {
+    let message = this.state.malusOn ? 'ON' : 'OFF';
+    // let disable = this.state.bonusOn ? true;
+    return <button disabled={!this.state.bonusOn} onClick={(e) => this.toggleMalus(e)}>{message}</button>
+  }
+
+  toggleMalus = () => {
+    this.setState({
+      malusOn: !this.state.malusOn,
+    });
   }
 
   render() {
@@ -53,18 +79,14 @@ export default class Settings extends React.Component {
             </tr>
             <tr>
               <td> Bonus and Malus </td>
-              <td></td>
+              <td>{this.renderBonus()}</td>
             </tr>
             <tr>
               <td> Bonus only </td>
-              <td></td>
+              <td>{this.renderMalus()}</td>
             </tr>
           </tbody>
         </table>
-
-        <div id="settingsIndications">
-          <span>You need to reload between attacks ; watch for your attack bar !</span><br />
-        </div>
       </div>
     );
   }

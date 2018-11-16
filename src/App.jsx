@@ -10,29 +10,6 @@ import './App.css';
 
 import music from './sound/backgroundMusic.mp3';
 
-const houses = [
-  {
-    name: 'gryffindor',
-    color: 'rgb(255, 0, 0)',
-    secondColor: 'rgb(201,31,31)',
-  },
-  {
-    name: 'slytherin',
-    color: 'rgb(75, 220, 80)',
-    secondColor: 'rgb(27,146,31)',
-  },
-  {
-    name: 'hufflepuff',
-    color: 'rgb(255, 255, 0)',
-    secondColor: 'rgb(215,215,8)',
-  },
-  {
-    name: 'ravenclaw',
-    color: 'rgb(0, 0, 255)',
-    secondColor: 'rgb(48,48,131)',
-  },
-];
-
 class App extends Component {
   constructor() {
     super();
@@ -47,7 +24,7 @@ class App extends Component {
         numberOfPlayers: 2,
       },
       musicVolume: 1,
-      soundEffectVolume:1,
+      soundEffectVolume: 1,
     };
 
     this.backgroundMusic = new Audio(music);
@@ -56,9 +33,9 @@ class App extends Component {
   }
 
   listFighters = (fighterID) => {
-    const tempHouses = [];
-    const tempColor = [];
-    const tempSecondColor = [];
+    // const tempHouses = [];
+    // const tempColor = [];
+    // const tempSecondColor = [];
     let fighterColor = '';
     let fighterSecondColor = '';
     switch (fighterID) {
@@ -67,28 +44,28 @@ class App extends Component {
       case 'hufflepuff': { fighterColor = "rgb(255, 255, 0)" ; fighterSecondColor = "rgb(215,215,8)" }; break;
       default: { fighterColor = "rgb(0, 0, 255)" ; fighterSecondColor = "rgb(48,48,131)" }; break;
     }
-    tempHouses.push(fighterID);
-    tempColor.push(fighterColor);
-    tempSecondColor.push(fighterSecondColor);
-    
+    // tempHouses.push(fighterID);
+    // tempColor.push(fighterColor);
+    // tempSecondColor.push(fighterSecondColor);
+
     this.setState({
       fightersHouse: this.state.houseSelect.fightersHouse.push(fighterID),
       fightersHouse: [...this.state.houseSelect.fightersHouse],
       fightersColor: this.state.houseSelect.fightersColor.push(fighterColor),
       fightersSecondColor: this.state.houseSelect.fightersSecondColor.push(fighterSecondColor),
-    })
+    });
   }
 
-  setTournamentMode=(bool)=>{
+  setTournamentMode=(bool) => {
     this.setState({
-      houseSelect:{
+      houseSelect: {
         ...this.state.houseSelect,
         tournamentMode:bool,
-      }
-    })
+      },
+    });
   }
 
-  componentDidUpdate=()=>{
+  componentDidUpdate=() => {
     this.backgroundMusic.volume = this.state.musicVolume;
     this.soundsVolume = this.state.soundEffectVolume;
   }
@@ -101,33 +78,28 @@ class App extends Component {
         fightersHouse: [],
         fightersColor: [],
         fightersSecondColor: [],
-        numberOfPlayers:2,
+        numberOfPlayers: 2,
       }
     })
   }
 
   setVolume = (target, bool) => {
-    console.log("in app ", target, bool)
-    //console.log("in app.js", target, bool, target.includes('Sound'))
     if (target.includes('Music')) {
       if (!bool) this.setState({ musicVolume: 0 });
       else this.setState({ musicVolume: 1 });
-    }
-    else if (target.includes('Sound')) {
-      console.log("réglages son", bool)
+    } else if (target.includes('Sound')) {
       if (!bool) this.setState({ soundVolume: 0 });
       else this.setState({ soundVolume: 1 });
     }
   }
 
   render() {
-
     return (
       <div className="App">
-        <BrowserRouter >
+        <BrowserRouter>
           <Switch>
             <Route
-              exact path="/"
+              exact path = '/'
               render={() => (
                 <HomePage 
                   setTournamentMode={this.setTournamentMode}
@@ -151,8 +123,8 @@ class App extends Component {
                   fightersColor={this.state.houseSelect.fightersColor}
                   fightersSecondColor={this.state.houseSelect.fightersSecondColor}
                   tournamentMode={this.state.houseSelect.tournamentMode}
-                  resetGame = {this.resetGame}
-                  volume = {[this.state.musicVolume, this.state.soundEffectVolume]}
+                  resetGame={this.resetGame}
+                  volume={[this.state.musicVolume, this.state.soundEffectVolume]}
                 />)}
             />
           </Switch>

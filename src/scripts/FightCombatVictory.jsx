@@ -5,9 +5,9 @@ import { withRouter } from 'react-router-dom';
 class CombatVictory extends Component {
   constructor(props) {
     super(props);
-    const { turn } = this.props;
+    // const { turn } = this.props;
     this.state = {
-      turn,
+      turn: this.props.turn,
     };
   }
 
@@ -23,11 +23,10 @@ class CombatVictory extends Component {
   }
 
   nextFight=() => {
-    const { turn } = this.state;
+    this.props.nextFight(this.state.turn+1);
     this.setState({
-      turn: turn + 1,
+      turn: this.state.turn + 1,
     });
-    this.props.nextFight(turn);
   }
 
   returnToHomePage=() => {

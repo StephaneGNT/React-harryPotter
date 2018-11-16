@@ -93,7 +93,7 @@ class HousesChoice extends Component {
     const render = [];
     for (let i = 0; i < houses.length; i++) {
       render.push(
-        <div className="flag" id={houses[i] + "Flag"} role="houseSelection" onClick={((e) => this.selectHouse(houses[i]))} style={{ filter: this.state[houses[i] + "Filter"] }} />
+        <div className="flag" id={houses[i] + "Flag"} role="houseSelection" key={i} onClick={((e) => this.selectHouse(houses[i]))} style={{ filter: this.state[houses[i] + "Filter"] }} />
       );
     }
     return render;

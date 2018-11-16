@@ -9,6 +9,7 @@ import WelcomeMessage from '../scripts/FightWelcomeMessage';
 import Bonus from '../scripts/FightBonus';
 import Instructions from '../scripts/HomePageInstructions';
 import ScoreBar from '../scripts/ScoreBar';
+import Impact from '../scripts/FightImpact';
 
 import FighterModel from '../model/fighterModel';
 import SpellModel from '../model/spellModel';
@@ -63,7 +64,7 @@ class Fight extends Component {
     this.tournamentVictory = false;
     this.isFighterDead = false;
     this.winner = {};
-    this.fightTime = 2;
+    this.fightTime = 5;
     this.activeKeys = [];
     this.houses = fightersHouse;
     this.colors = fightersColor;
@@ -99,16 +100,16 @@ class Fight extends Component {
     this.state = {
       turn: 1,
       tournamentVictory: this.tournamentVictory,
-      isFighterDead: this.isFighterDead,
-      winner: this.winner,
-      playersPoints: this.playersPoints,
-      fighter1: this.fighter1,
-      fighter2: this.fighter2,
-      spellfighter1: this.spellfighter1,
-      spellfighter2: this.spellfighter2,
-      activeKeys: [],
-      bonus: this.bonus,
-      collision:false,
+      // isFighterDead: this.isFighterDead,
+      // winner: this.winner,
+      // playersPoints: this.playersPoints,
+      // fighter1: this.fighter1,
+      // fighter2: this.fighter2,
+      // spellfighter1: this.spellfighter1,
+      // spellfighter2: this.spellfighter2,
+      // activeKeys: [],
+      // bonus: this.bonus,
+      // collision:false,
     };
   }
 
@@ -194,6 +195,7 @@ class Fight extends Component {
       if (this.collides(spell, target)) {
         if (!target.defense.shieldOn) {
           target.getImpacted(shooter.attack.attackPower);
+          // target.renderImpact();
           spell.destroy();
           clearInterval(collisionDetectionIntervall);
         }
@@ -234,6 +236,7 @@ class Fight extends Component {
     this.turn = turn;
     this.isFighterDead = false;
     this.fightTime = 2;
+    console.log("in initiate fighter : ",this.turn, this.fighter1, this.fighter2)
   }
 
   generateBonus = () => {
@@ -285,6 +288,7 @@ class Fight extends Component {
           else otherFighter.invertControls()
         }; break;
     }
+    
   }
 
   restartFight = () => {
@@ -301,7 +305,7 @@ class Fight extends Component {
     this.props.resetGame();
   }
 
-  renderHeader=() => (
+  renderHeader = () => (
     <Header
       fighter1={this.fighter1}
       fighter2={this.fighter2}
@@ -340,6 +344,15 @@ class Fight extends Component {
     if (spell.isVisible) {
       return (
         <Spell spell={spell} />
+      );
+    }
+    return;
+  }
+
+  renderImpact = fighter => {
+    if (fighter.gotShot) {
+      return (
+        <Impact fighter={fighter} />
       );
     }
     return;
@@ -427,7 +440,7 @@ class Fight extends Component {
       backgroundImage: `url(${this.backgroundImage})`,
     };
 
-    const { fightersHouse, fightersColor, fightersSecondColor } = this.props;
+    //const { fightersHouse, fightersColor, fightersSecondColor } = this.props;
     const { tournamentVictory } = this.state;
 
     return (
@@ -437,9 +450,9 @@ class Fight extends Component {
             ? (
               <TournamentVictory
                 points={this.playersPoints}
-                houses={fightersHouse}
-                color={fightersColor}
-                secondColor={fightersSecondColor}
+                houses={this.props.fightersHouse}
+                color={this.props.fightersColor}
+                secondColor={this.props.fightersSecondColor}
                 resetGame={this.resetGame}
               />
             )
@@ -449,10 +462,12 @@ class Fight extends Component {
                 {this.renderWelcomeMessage()}
                 {this.renderFighter(this.fighter1)}
                 {this.renderSpell(this.spellfighter1)}
+                {this.renderImpact(this.fighter1)}
                 {this.renderShield(this.fighter1)}
                 {this.renderFighter(this.fighter2)}
                 {this.renderSpell(this.spellfighter2)}
                 {this.renderShield(this.fighter2)}
+                {this.renderImpact(this.fighter2)}
                 {this.renderPoints()}
                 {this.renderBonus()}
                 {this.renderCombatVictory()}
